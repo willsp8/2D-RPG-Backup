@@ -295,6 +295,12 @@ let ALC8 = 0
 let ALC9 = 0
 let ALC10 = 0
 
+let ALCShift = 0
+let ALCShift2 = 0
+
+let coolDownDone = false 
+let shiftAllowed = false 
+
 const town_movables = [ townEnmeny3, townEnmeny4, TestBoundary3, AreaBoundary3, StartingPoint3, TestBoundary4, AreaBoundary4, StartingPoint4, 
     ...townBattleZones, townEnmeny2, townEnmeny1, townBackground, ...boundaries_for_town, ...boundaries_for_entering_library, ...boundaries_for_entering_cafe, ...boundaries_for_entering_house]
 const movable_enemy1 = [townEnmeny2, townEnmeny1,  townEnmeny4, TestBoundary3,  TestBoundary4, AreaBoundary4, StartingPoint4]
@@ -360,7 +366,7 @@ function animateTown(){
     let movingEnemy = true
     let movingEnemy2 = true
     player3.animate = false
-    
+    shiftAllowed = true
 
     //enemy attack system
         enemyAttackTown(player3, TestBoundary4, movingEnemy)
@@ -419,10 +425,19 @@ function animateTown(){
 
         openMenu()
 
+        ALCShift = ALCShift + 1
+
+        if(ALCShift == 50){
+            console.log(' shift is ready')
+            coolDownDone = true
+            ALCShift = 0
+        }
+
     if(keys.w.pressed == true && lastKey == 'w') {
         
         player3.animate = true
         player3.image = player3.sprites.up
+            
         if(rectangularCollision2({
             rectangle1: player3,
             //makes ad clone of the boundary object 
@@ -530,12 +545,59 @@ function animateTown(){
             }
         }
         
-        if(moving3 == true){
-            // so this should only move the movable objects in the array we put above animate and should allow the collision blocks to stay in place
-            town_movables.forEach((movable) => {
-            movable.position.y += 3})
-            
+        for (let i = 0; i < boundaries_for_town.length; i++){
+            const boundary = boundaries_for_town[i]
+            if(
+                rectangularCollisionHouse({
+                    rectangle1: player3,
+                    //makes a clone of the boundary object 
+                    rectangle2: {
+                        ...boundary, 
+                        position: {
+                            x: boundary.position.x,
+                            y: boundary.position.y + 80
+                        }
+                    }
+                })
+            ){
+               
+                shiftAllowed = false
+                
+            }
         }
+
+        
+        
+        // moving is true run the lines of code below
+        if(moving3 == true){
+            if(keys.shift.pressed == true){
+                //console.log('should work')
+                console.log(timespressed)
+                if(coolDownDone == true && shiftAllowed == true){
+                    
+                    town_movables.forEach(movable => {
+                        
+                            movable.position.y += 80
+                            
+                        })
+                        timespressed = 0
+                    coolDownDone = false 
+                }else if(coolDownDone == false){
+                    town_movables.forEach(movable => {
+                        movable.position.y += 3})
+                }
+                
+                    
+            }else{
+                console.log(' s key is not working')
+                town_movables.forEach(movable => {
+            movable.position.y += 3})
+            }
+            // so this should only move the movable objects in the array we put above animate and should allow the collision blocks to stay in place
+            
+        //console.log(background.position.y)
+        }
+        keys.shift.pressed = false
                 
         
     }else if (keys.s.pressed == true && lastKey == 's') {
@@ -573,14 +635,60 @@ function animateTown(){
                 break
             }
         }
+
+        for (let i = 0; i < boundaries_for_town.length; i++){
+            const boundary = boundaries_for_town[i]
+            if(
+                rectangularCollisionHouse({
+                    rectangle1: player3,
+                    //makes a clone of the boundary object 
+                    rectangle2: {
+                        ...boundary, 
+                        position: {
+                            x: boundary.position.x,
+                            y: boundary.position.y - 80
+                        }
+                    }
+                })
+            ){
+               
+                shiftAllowed = false
+                
+            }
+        }
+
+        
+        
         // moving is true run the lines of code below
         if(moving3 == true){
-            // so this should only move the movable objects in the array we put above animate and should allow the collision blocks to stay in place
-            town_movables.forEach(movable => {
+            if(keys.shift.pressed == true){
+                //console.log('should work')
+                console.log(timespressed)
+                if(coolDownDone == true && shiftAllowed == true){
+                    
+                    town_movables.forEach(movable => {
+                        
+                            movable.position.y -= 80
+                            
+                        })
+                        timespressed = 0
+                    coolDownDone = false 
+                }else if(coolDownDone == false){
+                    town_movables.forEach(movable => {
+                        movable.position.y -= 3})
+                }
+                
+                    
+            }else{
+                console.log(' s key is not working')
+                town_movables.forEach(movable => {
             movable.position.y -= 3})
+            }
+            // so this should only move the movable objects in the array we put above animate and should allow the collision blocks to stay in place
+            
         //console.log(background.position.y)
         }
-        
+        keys.shift.pressed = false
         
     }else if(keys.a.pressed == true && lastKey == 'a') {
         
@@ -619,13 +727,57 @@ function animateTown(){
             }
         }
         // moving is true run the lines of code below
+        for (let i = 0; i < boundaries_for_town.length; i++){
+            const boundary = boundaries_for_town[i]
+            if(
+                rectangularCollisionHouse({
+                    rectangle1: player3,
+                    //makes a clone of the boundary object 
+                    rectangle2: {
+                        ...boundary, 
+                        position: {
+                            x: boundary.position.x + 80,
+                            y: boundary.position.y
+                        }
+                    }
+                })
+            ){
+               
+                shiftAllowed = false
+                
+            }
+        }
+
+        
+        
+        // moving is true run the lines of code below
         if(moving3 == true){
-            // so this should only move the movable objects in the array we put above animate and should allow the collision blocks to stay in place
-            town_movables.forEach(movable => {
+            if(keys.shift.pressed == true){
+                //console.log('should work')
+                console.log(timespressed)
+                if(coolDownDone == true && shiftAllowed == true){
+                    
+                    town_movables.forEach(movable => {
+                        
+                            movable.position.x += 80
+                            
+                        })
+                        timespressed = 0
+                    coolDownDone = false 
+                }else if(coolDownDone == false){
+                    town_movables.forEach(movable => {
+                        movable.position.x += 3})
+                }
+                
+                    
+            }else{
+                console.log(' s key is not working')
+                town_movables.forEach(movable => {
             movable.position.x += 3})
+            }
         }
         
-        
+        keys.shift.pressed = false
         //console.log(background.position.x)
     }else if(keys.d.pressed == true && lastKey == 'd') {
         player3.animate = true
@@ -663,11 +815,57 @@ function animateTown(){
             }
         }
         // moving is true run the lines of code below
-        if(moving3 == true){
-            // so this should only move the movable objects in the array we put above animate and should allow the collision blocks to stay in place
-            town_movables.forEach(movable => {
-            movable.position.x -= 3})
+        for (let i = 0; i < boundaries_for_town.length; i++){
+            const boundary = boundaries_for_town[i]
+            if(
+                rectangularCollisionHouse({
+                    rectangle1: player3,
+                    //makes a clone of the boundary object 
+                    rectangle2: {
+                        ...boundary, 
+                        position: {
+                            x: boundary.position.x - 80,
+                            y: boundary.position.y
+                        }
+                    }
+                })
+            ){
+               
+                shiftAllowed = false
+                
+            }
         }
+
+        
+        
+        // moving is true run the lines of code below
+        if(moving3 == true){
+            if(keys.shift.pressed == true){
+                //console.log('should work')
+                console.log(timespressed)
+                if(coolDownDone == true && shiftAllowed == true){
+                    
+                    town_movables.forEach(movable => {
+                        
+                            movable.position.x -= 80
+                            
+                        })
+                        timespressed = 0
+                    coolDownDone = false 
+                }else if(coolDownDone == false){
+                    town_movables.forEach(movable => {
+                        movable.position.x -= 3})
+                }
+                
+                    
+            }else{
+                console.log(' s key is not working')
+                town_movables.forEach(movable => {
+            movable.position.x -= 3})
+            }
+        }
+        
+        keys.shift.pressed = false
         
        
        // console.log(background.position.x)

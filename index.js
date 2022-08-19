@@ -34,6 +34,9 @@ const keys = {
     },
     r: {
         pressed: false
+    }, 
+    shift: {
+        pressed: false
     }
 }
 
@@ -107,6 +110,7 @@ addEventListener('click', () =>{
 
 //so whenever a key is pushed down than it will call what ever is in the () => {
 // part of the code also in the (e) basicallly adding an event object 
+var timespressed = 0
 window.addEventListener('keydown', (e) => {
     console.log(e.key)
     if(e.key == ' '){
@@ -181,6 +185,10 @@ window.addEventListener('keydown', (e) => {
         case 'r':
             keys.r.pressed = true
             keys.f.pressed = false     
+        case 'Shift':
+            keys.shift.pressed = true
+            timespressed = timespressed + 1
+            //lastKey = 'Shift'
     }
 })
 
@@ -190,6 +198,7 @@ var dialogueToggled = false
 window.addEventListener('keyup', (e) => {
     //console.log(e.key)
     // making an switch case statment 
+
     switch(e.key){
         case ' ':
             keys.space.pressed = false
@@ -213,6 +222,10 @@ window.addEventListener('keyup', (e) => {
             break     
         case 'q':
             keys.q.pressed = false
-            break     
+            break   
+        case 'Shift':
+            keys.shift.pressed = false  
+            //timespressed = 0
+            break
     }
 })
