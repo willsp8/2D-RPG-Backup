@@ -457,13 +457,7 @@ function animateTown(){
 
         openMenu()
 
-        ALCShift = ALCShift + 1
-
-        if(ALCShift == 50){
-            console.log(' shift is ready')
-            coolDownDone = true
-            ALCShift = 0
-        }
+        
 
         playerFireBallAttack(player3, playerFireBall, townEnmeny4, boundaries_for_town, enemyStat4, playerStats, firemoving)
         playerFireBallAttack(player3, playerFireBall, townEnmeny3, boundaries_for_town, enemyStat3, playerStats, firemoving)
@@ -1468,7 +1462,7 @@ function enemyAttackTown(player, testBoundary, moving){
 function playerFireBallAttack(player, playerFireBall, enemy, 
     boundaries, enemyStats, playerStats, firemoving){
         
-    if(keys.f.pressed == true){
+    if(keys.f.pressed == true ){
         //playerFireBall.position.y = player.position.y
         //playerFireBall.position.x = player.position.x  
         if(player.image == player.sprites.left && rightDone == false && upDone == false && downDone == false && playerStats.playerMagic > 25) {
@@ -2127,14 +2121,19 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
 function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, playerSwordL, playerSwordD, playerSwordU, moving, enemyStat){
     ALCControl = ALCControl + 1
     //console.log(ALCControl)
-    if(ALCControl == 50){
-      //  console.log(' spin is ready')
+    if(ALCControl == 500){
+        console.log(' spin is ready')
         spinMoveCoolDown = true
         ALCControl = 0
+        if(playerStats.playerEnergy < 1001){
+            playerStats.playerEnergy = playerStats.playerEnergy + 20
+            document.querySelector('#pEnergy').innerHTML = 'Enegry Level: ' + playerStats.playerEnergy
+        }
     }
-    if(keys.control.pressed == true && spinMoveCoolDown == true ){
+    if(keys.control.pressed == true && spinMoveCoolDown == true && playerStats.playerEnergy > 40){
         // note we need to change some things 
-
+        playerStats.playerEnergy = playerStats.playerEnergy - 1
+        document.querySelector('#pEnergy').innerHTML = 'Enegry Level: ' + playerStats.playerEnergy
             playerSwordR.draw()
             
             if(rectangularCollision2({
@@ -2234,8 +2233,16 @@ function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, player
                 }
         
             }
-        
-            spinMoveCoolDown = false
+            setTimeout(spinMoveTimer, 500)
+            console.log('nko)')
+            //spinMoveCoolDown = false
             
     }
+    
+    //spinMoveCoolDown = false
+}
+
+function spinMoveTimer(){
+    console.log('freak')
+    spinMoveCoolDown = false
 }

@@ -1,6 +1,7 @@
 let playerStats = {
     playerHealth: 100,
     playerMagic: 1000,
+    playerEnergy: 100,
     playerMoney: 400,
     playerCoffee: 1,
     playerGreenTea: 2
