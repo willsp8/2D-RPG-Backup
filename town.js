@@ -241,16 +241,16 @@ const player3 = new Sprite({
     // this sets up the sprite so we can animate our player moving right, left and etc. 
 })
 
-const playerSwordR = new Boundary4({
+const playerSwordR = new Boundary8({
     position: {
         x: (canvas.width / 2 - 192 / 4 / 2) + 50, 
-        y: (canvas.height / 2 - 68 / 2)  
+        y: (canvas.height / 2 - 68 / 2)  - 50
     }
 })
-const playerSwordL = new Boundary4({
+const playerSwordL = new Boundary8({
     position: {
         x: (canvas.width / 2 - 192 / 4 / 2) - 50, 
-        y: (canvas.height / 2 - 68 / 2) 
+        y: (canvas.height / 2 - 68 / 2) - 50
     }
 })
 const playerSwordD = new Boundary4({
@@ -298,8 +298,12 @@ let ALC10 = 0
 let ALCShift = 0
 let ALCShift2 = 0
 
+let ALCControl = 0
+let ALCControl2 = 0
+
 let coolDownDone = false 
 let shiftAllowed = false 
+let spinMoveCoolDown = false
 
 const town_movables = [ townEnmeny3, townEnmeny4, TestBoundary3, AreaBoundary3, StartingPoint3, TestBoundary4, AreaBoundary4, StartingPoint4, 
     ...townBattleZones, townEnmeny2, townEnmeny1, townBackground, ...boundaries_for_town, ...boundaries_for_entering_library, ...boundaries_for_entering_cafe, ...boundaries_for_entering_house]
@@ -350,11 +354,11 @@ function animateTown(){
     
     //player.drawAI()
 
-    //AreaBoundary3.draw()
+    AreaBoundary3.draw()
     TestBoundary3.draw()
-    //StartingPoint3.draw()
+    StartingPoint3.draw()
     townEnmeny3.draw()
-
+    //playerSwordR.draw()
     // AreaBoundary4.draw()
     TestBoundary4.draw() 
     // StartingPoint4.draw()
@@ -390,8 +394,11 @@ function animateTown(){
         })
     // players attack 
         playerAttackTown(player3, townEnmeny4, TestBoundary4, AreaBoundary4, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy, enemyStat4)
+        
         playerAttackTown(player3, townEnmeny3, TestBoundary3, AreaBoundary3, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy2, enemyStat3)
-
+        playerAttackSpinTown(townEnmeny3, TestBoundary3, AreaBoundary3, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy2, enemyStat3)
+        playerAttackSpinTown( townEnmeny4, TestBoundary4, AreaBoundary4, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy, enemyStat4)
+        
         if(enemyStat4.ememyHealth <= 0 && townEnemyDead == false ){
             playerStats.playerMoney = playerStats.playerMoney + 100
             document.querySelector('#pWallet').innerHTML = '$' + playerStats.playerMoney
@@ -589,7 +596,7 @@ function animateTown(){
                 
                     
             }else{
-                console.log(' s key is not working')
+               // console.log(' s key is not working')
                 town_movables.forEach(movable => {
             movable.position.y += 3})
             }
@@ -680,7 +687,7 @@ function animateTown(){
                 
                     
             }else{
-                console.log(' s key is not working')
+                //console.log(' s key is not working')
                 town_movables.forEach(movable => {
             movable.position.y -= 3})
             }
@@ -771,7 +778,7 @@ function animateTown(){
                 
                     
             }else{
-                console.log(' s key is not working')
+               // console.log(' s key is not working')
                 town_movables.forEach(movable => {
             movable.position.x += 3})
             }
@@ -859,7 +866,7 @@ function animateTown(){
                 
                     
             }else{
-                console.log(' s key is not working')
+               // console.log(' s key is not working')
                 town_movables.forEach(movable => {
             movable.position.x -= 3})
             }
@@ -1297,7 +1304,7 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                             //area to start following player
                             areaBoundary.position.x -= angle
                             areaBoundary.position.y += angle
-                            console.log('on  3')
+                            //console.log('on  3')
                         }else if(angle <= -1 && angle < -1.7)
                         {
                             enemy.position.x += angle
@@ -1308,11 +1315,11 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                             //area
                             areaBoundary.position.x += angle
                             areaBoundary.position.y += angle
-                            console.log('on  2')
+                           // console.log('on  2')
                         }
                         if(angle >= -1.7 && angle < -.01)
                         {
-                            console.log('on  1')
+                            //console.log('on  1')
                             enemy.position.x -= angle - 3
                             enemy.position.y += angle 
                             //attack 
@@ -1331,7 +1338,7 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                             areaBoundary.position.x += angle + 2
                             areaBoundary.position.y += angle + 2
 
-                            console.log('on  4')
+                           // console.log('on  4')
                         }
                     }else if(rectangularCollision2({
                         rectangle1: enemystartingpoint,
@@ -1352,7 +1359,7 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                             //area to start following player
                             areaBoundary.position.x -= angle2
                             areaBoundary.position.y += angle2
-                            console.log('on  3')
+                           // console.log('on  3')
                         }else if(angle2 <= -1 && angle2 < -1.7)
                         {
                             enemy.position.x += angle2
@@ -1363,11 +1370,11 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                             //area
                             areaBoundary.position.x += angle2
                             areaBoundary.position.y += angle2
-                            console.log('on  2')
+                            //console.log('on  2')
                         }
                         if(angle2 >= -1.7 && angle2 < -.01)
                         {
-                            console.log('on  1')
+                            //console.log('on  1')
                             enemy.position.x -= angle2 - 3
                             enemy.position.y += angle2 
                             //attack 
@@ -1386,7 +1393,7 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                             areaBoundary.position.x += angle2 + 2
                             areaBoundary.position.y += angle2 + 2
 
-                            console.log('on  4')
+                           // console.log('on  4')
                         }
                     }else if(
                         rectangularCollision2({
@@ -1532,5 +1539,121 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
         }
     
 
+    }
+}
+
+function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, playerSwordL, playerSwordD, playerSwordU, moving, enemyStat){
+    ALCControl = ALCControl + 1
+    //console.log(ALCControl)
+    if(ALCControl == 50){
+      //  console.log(' spin is ready')
+        spinMoveCoolDown = true
+        ALCControl = 0
+    }
+    if(keys.control.pressed == true && spinMoveCoolDown == true ){
+        // note we need to change some things 
+
+            playerSwordR.draw()
+            
+            if(rectangularCollision2({
+                rectangle1: playerSwordR,
+                //makes a clone of the boundary object 
+                rectangle2: enemy,
+                x: 0,
+                y: 0
+            })){       
+                        if(moving == true){
+                            console.log('right was hit ')
+                            enemy.position.x += 20
+                            enmeySword.position.x += 20
+                           enemyArea.position.x += 20
+                            enemyStat.ememyHealth = enemyStat.ememyHealth - 3
+                            console.log('enemy health')
+                            console.log(enemyStat.ememyHealth)   
+                        }
+                        
+                
+                }
+            
+            
+        
+        
+            playerSwordL.draw()
+            if(rectangularCollision2({
+                rectangle1: playerSwordL,
+                //makes a clone of the boundary object 
+                rectangle2: enemy,
+                x: 0,
+                y: 0
+            })){
+                
+                //note to self this makes the cat move towards the right away from the player like link between worlds
+                //note this then makes the the console log hit or go 4 to 5 times which should help with the rest of the stuff also create collsion for cat and boundies
+                    if(moving == true){
+                        console.log('l was hit ')
+                        enemy.position.x -= 20
+                        enmeySword.position.x -= 20
+                       enemyArea.position.x -= 20
+                        enemyStat.ememyHealth = enemyStat.ememyHealth - 3
+                        console.log('enemy health')
+                            console.log(enemyStat.ememyHealth)  
+                    }
+                        
+                }
+
+                
+            
+            
+        
+        
+            playerSwordU.draw()
+            
+            if(rectangularCollision2({
+                rectangle1: playerSwordU,
+                //makes a clone of the boundary object 
+                rectangle2: enemy,
+                x: 0,
+                y: 0
+            })){
+                
+                if(moving == true){
+                    console.log('up was hit ')
+                    enemy.position.y -= 20
+                    enmeySword.position.y -= 20
+                   enemyArea.position.y -= 20
+                    enemyStat.ememyHealth = enemyStat.ememyHealth - 3
+                    
+                    
+                    
+                            
+                }
+                    
+            }
+        
+        
+            playerSwordD.draw()
+            if(rectangularCollision2({
+                rectangle1: playerSwordD,
+                //makes a clone of the boundary object 
+                rectangle2: enemy,
+                x: 0,
+                y: 0
+            })){
+                
+                
+                if(moving == true){
+                   
+                    console.log('d was hit ')
+                    enemy.position.y += 20
+                    enmeySword.position.y += 20
+                   enemyArea.position.y += 20
+                    enemyStat.ememyHealth = enemyStat.ememyHealth - 1
+                    
+                }
+        
+            }
+        
+            spinMoveCoolDown = false
+            
     }
 }

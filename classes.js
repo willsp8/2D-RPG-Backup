@@ -156,289 +156,7 @@ class Sprite{
     
 }
 
-class Monster extends Sprite{
-    constructor({position, image, frames = {max: 1, hold: 10}, sprites, animate = false, rotation=0, isEnemy=false, name, attacks, health}){
-        super({
-            position, image, frames, sprites, animate, rotation,
-        })
-        this.health = health
-        this.magic = 100
-        this.isEnemy = isEnemy
-        this.name = name
-        this.attacks = attacks
 
-    }
-    faint(){
-        console.log('faint')
-        document.querySelector('#dialogueBox').innerHTML = this.name + ' fainted!'
-        gsap.to(this.position, {
-            y: this.position.y + 20
-        })
-
-        gsap.to(this, {
-            opacity: 0
-        })
-    }
-
-    // creating a attack method 
-    attack({attack, player, recipient, renderedSprites}) {
-        // this will make the dialogue apear when you attack
-        document.querySelector('#dialogueBox').style.display = 'block'
-        document.querySelector('#dialogueBox').innerHTML = this.name + ' used ' + attack.name
-        if(this.isEnemy){
-            document.querySelector('#playerHealthBar_2').innerHTML = recipient.health
-        }else{
-            document.querySelector('#enemyHealthBar_2').innerHTML = recipient.health
-        }
-        let healthBar = '#enemyHealthBar'
-        let healthBar_player = '#playerHealthBar'
-        let magicBar = '#playerMagicBar'
-        if(this.isEnemy) healthBar = '#playerHealthBar'
-        let rotation = 1
-        if(this.isEnemy == true) rotation = -2.2
-        
-            console.log('last statment')
-            console.log(recipient)
-            recipient.health -= attack.damage
-        
-        
-        
-        
-        
-        
-        console.log('player')
-        console.log(player.health)
-        
-        
-        // this will deal with the animations and decrease and increase health 
-        switch(attack.name) {
-            case 'Fireball':
-                if(player.magic > 0){
-                       
-                
-                player.magic -= attack.cost
-                const fireballImage = new Image()
-                fireballImage.src = './res/fireball.png'
-                const fireball = new Sprite({
-                    position: {
-                        x: this.position.x,
-                        y: this.position.y
-                    },
-                    image: fireballImage,
-                    frames: {
-                        max: 4, 
-                        hold: 10
-                    },
-                    animate: true,
-                    rotation: rotation
-                })
-                if(this.isEnemy){
-                    document.querySelector('#playerHealthBar_2').innerHTML = 'Health: ' + recipient.health
-                    
-                }else{
-                    document.querySelector('#enemyHealthBar_2').innerHTML = 'Health: ' + recipient.health
-                    document.querySelector('#playerMagicBar_2').innerHTML = 'Magic: ' + player.magic
-                }
-
-                
-                renderedSprites.splice(1, 0, fireball)
-                // makes sure to animate the fireball attack traveling towards the enemy
-                gsap.to(fireball.position, {
-                  x: recipient.position.x,
-                  y: recipient.position.y,
-                  onComplete: () => {
-                      // enemy actually gets hit
-                      if(this.isEnemy == false){
-                        gsap.to(magicBar, {
-                            width: player.magic + '%'
-                        })
-                      }
-                        gsap.to(recipient.position, {
-                            x: recipient.position.x + 10,
-                            yoyo: true,
-                            repeat: 5,
-                            duration: 0.08
-                        })
-
-                        gsap.to(recipient, {
-                            opacity: 0, 
-                            repeat: 5,
-                            yoyo: true,
-                            duration: 0.08
-                        })
-                        // removes fireball from the screen 
-                        renderedSprites.slice(1, 1)
-                  }  
-                  
-                })
-                }
-            break
-            case 'Tackle':
-                // this makes a gsap timeline
-                
-                const tl = gsap.timeline()
-                
-                let movementDistance = 20
-                if(this.isEnemy) movementDistance = -20
-                console.log('enemy bar')
-                console.log(healthBar)
-                console.log(recipient.health)
-                // this.position gets the current position of sprite 
-                // so when we attack our player will move 20 pixels to the left\
-                if(this.isEnemy){
-                    document.querySelector('#playerHealthBar_2').innerHTML = 'Health: ' + recipient.health
-                    
-                }else{
-                    document.querySelector('#enemyHealthBar_2').innerHTML = 'Health: ' + recipient.health
-                    document.querySelector('#playerMagicBar_2').innerHTML = 'Magic: ' + player.magic
-                }
-               
-                tl.to(this.position, {
-                    x: this.position.x - movementDistance
-                }).to(this.position, {
-                    x: this.position.x + movementDistance * 2,
-                    duration: 0.1,
-                    onComplete: () => {
-                        // enemy actually gets hit
-                        
-                        gsap.to(recipient.position, {
-                            x: recipient.position.x + 10,
-                            yoyo: true,
-                            repeat: 5,
-                            duration: 0.08
-                        })
-
-                        gsap.to(recipient, {
-                            opacity: 0, 
-                            repeat: 5,
-                            yoyo: true,
-                            duration: 0.08
-                        })
-                    }
-                }).to(this.position, {
-                    x: this.position.x 
-                })
-                
-            break
-            case 'Heal':
-                 // this makes a gsap timeline
-                if(player.magic > 0 && player.health < 75 && this.isEnemy == false){
-
-                    console.log('health of player')
-                    const t2 = gsap.timeline()
-                    player.magic -= attack.cost
-                    player.health += attack.restore
-                    document.querySelector('#playerHealthBar_2').innerHTML = 'Health: ' + player.health
-                    document.querySelector('#playerMagicBar_2').innerHTML = 'Magic: ' + player.magic
-                    document.querySelector('#enemyHealthBar_2').innerHTML = 'Health: ' + recipient.health
-                    let movementDistance2 = 20
-                    if(this.isEnemy) movementDistance2 = -20
-                    // this.position gets the current position of sprite
-                    // so when we attack our player will move 20 pixels to the left
-                
-                        t2.to(this.position, {
-                            x: this.position.x - movementDistance2
-                        }).to(this.position, {
-                            x: this.position.x + movementDistance2 * 2,
-                            duration: 0.1,
-                        
-                        }).to(this.position, {
-                            x: this.position.x
-                        })
-    
-                }
-               
-            break
-            case 'Fast':
-            break
-            case 'Coffee':
-                 // this makes a gsap timeline
-                
-
-                 
-                const t3 = gsap.timeline()
-                
-                
-                let movementDistance3 = 20
-                if(this.isEnemy) movementDistance3 = -20
-                if(numOfCoffee > 0 && player.health < 75 ){
-                    player.health += attack.restore
-                    document.querySelector('#playerHealthBar_2').innerHTML = 'Health: ' + player.health
-                    document.querySelector('#playerMagicBar_2').innerHTML = 'Magic: ' + player.magic
-                    document.querySelector('#enemyHealthBar_2').innerHTML = 'Health: ' + recipient.health
-                
-                console.log('health bar for coffee')
-                console.log(healthBar)
-                // this.position gets the current position of sprite
-                // so when we attack our player will move 20 pixels to the left
-               
-                    t3.to(this.position, {
-                        x: this.position.x - movementDistance3
-                    }).to(this.position, {
-                        x: this.position.x + movementDistance3 * 2,
-                        duration: 0.1,
-                        
-                        
-                    }).to(this.position, {
-                        x: this.position.x
-                    })
-                    numOfCoffee = numOfCoffee - 1
-                    playerInventory.splice(playerInventory.indexOf('coffee'), 1)
-                }else if(numOfCoffee == 0){
-                    document.querySelector('#dialogueBox').innerHTML ='we are out of coffee'
-                    
-                    
-                    break
-                } 
-            break
-            case 'GreenTea':
-                 // this makes a gsap timeline
-                
-
-                 
-                const t4 = gsap.timeline()
-                
-                
-                let movementDistance4 = 20
-                if(this.isEnemy) movementDistance4 = -20
-                if(numGreenTea > 0 && player.magic < 85 ){
-
-                    player.magic += attack.magicRestore
-                    document.querySelector('#playerHealthBar_2').innerHTML = 'Health: ' + player.health
-                    document.querySelector('#playerMagicBar_2').innerHTML = 'Magic: ' + player.magic
-                    document.querySelector('#enemyHealthBar_2').innerHTML = 'Health: ' + recipient.health
-                
-                console.log('health bar for coffee')
-                console.log(healthBar)
-                // this.position gets the current position of sprite
-                // so when we attack our player will move 20 pixels to the left
-               
-                    t4.to(this.position, {
-                        x: this.position.x - movementDistance4
-                    }).to(this.position, {
-                        x: this.position.x + movementDistance4 * 2,
-                        duration: 0.1,
-                        
-                        
-                    }).to(this.position, {
-                        x: this.position.x
-                    })
-                    numGreenTea = numGreenTea - 1
-                }else if(numGreenTea == 0){
-                    document.querySelector('#dialogueBox').innerHTML ='we are out of green Tea'
-                    
-                    
-                    break
-                } 
-            break
-            
-        }
-       
-    }
-
-
-
-}
 
 
 //  creating a class for the Boundary
@@ -563,6 +281,24 @@ class Boundary7{
         // un comment if you want to see red blocks
         //c.fillStyle = 'rgba(200, 3, 0)'
         c.fillStyle = 'rgba(0, 0, 0, 0)'
+        c.fillRect(this.position.x, this.position.y, this.width, this.height) 
+        
+    }
+}
+
+class Boundary8{
+    static width = 48
+    static height = 148
+    constructor({position}) {
+        this.position = position
+        this.width = 48
+        this.height = 148
+    }
+    //draws boundary onto the screen
+    draw() {
+        // un comment if you want to see red blocks
+        c.fillStyle = 'rgba(255, 0, 0, .5)'
+        //c.fillStyle = 'rgba(0, 0, 0, 0)'
         c.fillRect(this.position.x, this.position.y, this.width, this.height) 
         
     }

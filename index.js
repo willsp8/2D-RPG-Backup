@@ -11,6 +11,9 @@ const keys = {
     space: {
         pressed: false
     },
+    control: {
+        pressed: false
+    },
     w: {
         pressed: false
     },
@@ -122,6 +125,10 @@ window.addEventListener('keydown', (e) => {
             keys.space.pressed = true
             lastkey = ' '
             break
+        case 'Control':
+            keys.control.pressed = true
+            lastkey = 'Control'
+            break
         case 'w':
             // so when w is pressed it will set our keys const w to true instead of being false
             keys.w.pressed = true
@@ -202,6 +209,9 @@ window.addEventListener('keyup', (e) => {
     switch(e.key){
         case ' ':
             keys.space.pressed = false
+            break
+        case 'Control':
+            keys.control.pressed = false
             break
         case 'w':
             // so when w is pressed it will set our keys const w back to false 
