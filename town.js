@@ -266,6 +266,13 @@ const playerSwordU = new Boundary4({
     }
 })
 
+const playerFireBall = new Boundary4({
+    position: {
+        x: (canvas.width / 2 - 192 / 4 / 2) , 
+        y: (canvas.height / 2 - 68 / 2) - 50
+    }
+})
+
 
 
 const battle2 = {
@@ -301,14 +308,18 @@ let ALCShift2 = 0
 let ALCControl = 0
 let ALCControl2 = 0
 
+let ALCFireBall = 0
+let ALCFireBall2 = 0
+
 let coolDownDone = false 
 let shiftAllowed = false 
 let spinMoveCoolDown = false
 
-const town_movables = [ townEnmeny3, townEnmeny4, TestBoundary3, AreaBoundary3, StartingPoint3, TestBoundary4, AreaBoundary4, StartingPoint4, 
+const town_movables = [ playerFireBall, townEnmeny3, townEnmeny4, TestBoundary3, AreaBoundary3, StartingPoint3, TestBoundary4, AreaBoundary4, StartingPoint4, 
     ...townBattleZones, townEnmeny2, townEnmeny1, townBackground, ...boundaries_for_town, ...boundaries_for_entering_library, ...boundaries_for_entering_cafe, ...boundaries_for_entering_house]
 const movable_enemy1 = [townEnmeny2, townEnmeny1,  townEnmeny4, TestBoundary3,  TestBoundary4, AreaBoundary4, StartingPoint4]
 const movable_enemy2 = [ townEnmeny3,  TestBoundary3, AreaBoundary3, StartingPoint3,]
+const movableFireBall = [playerFireBall]
 function rectangularCollisionHouse({rectangle1, rectangle2}){
     //if the right side of the player is greater than the left side of the red block than they are colliding 
     
@@ -324,6 +335,18 @@ let actionLockCounter1 = 0
 let actionLockCounter2 = 0
 let townEnemyDead = false
 let townEnemyDead2 = false
+let runfire = false
+let toggledFireBall = false
+let toggledFireBallD = false
+let toggledFireBallR = false
+let toggledFireBallL
+let toggledFireBallU = false
+
+let leftDone = false
+let rightDone = false
+let upDone = false
+let downDone = false
+
 
 function animateTown(){
     const townAnimateId =  window.requestAnimationFrame(animateTown)
@@ -369,6 +392,8 @@ function animateTown(){
     let movingnpc_1 = true
     let movingEnemy = true
     let movingEnemy2 = true
+    let firemoving = true
+   
     player3.animate = false
     shiftAllowed = true
 
@@ -439,6 +464,317 @@ function animateTown(){
             coolDownDone = true
             ALCShift = 0
         }
+
+        playerFireBallAttack(player3, playerFireBall, townEnmeny4, boundaries_for_town, enemyStat4, playerStats, firemoving)
+        playerFireBallAttack(player3, playerFireBall, townEnmeny3, boundaries_for_town, enemyStat3, playerStats, firemoving)
+       
+    // fire ball feature
+        // if(keys.f.pressed == true){
+        //     //playerFireBall.position.y = player3.position.y
+        //     //playerFireBall.position.x = player3.position.x  
+        //     if(player3.image == player3.sprites.left && rightDone == false && upDone == false && downDone == false && playerStats.playerMagic > 25) {
+        //         toggledFireBallL = true
+        //         leftDone = true
+        //         //console.log('go to go')
+                
+        //     }else if(player3.image == player3.sprites.right && leftDone == false && upDone == false && downDone == false && playerStats.playerMagic > 25){
+        //         toggledFireBallR = true
+        //         rightDone = true
+        //     }else if(player3.image == player3.sprites.up && upDone == false && leftDone == false && rightDone == false && downDone == false && playerStats.playerMagic > 25 ){
+        //         toggledFireBallU = true
+        //         upDone = true
+        //     }else if(player3.image == player3.sprites.down && downDone == false && leftDone == false && rightDone == false && playerStats.playerMagic > 25){
+        //         toggledFireBallD = true
+        //         downDone = true
+        //     }
+
+        //     if(toggledFireBallL == true && leftDone == true){
+        //         playerStats.playerMagic = playerStats.playerMagic - 1
+        //         document.querySelector('#pMagic').innerHTML = 'Magic Level: ' + playerStats.playerMagic
+        //         if( rectangularCollision2({
+        //             rectangle1: playerFireBall,
+        //             //makes a clone of the boundary object 
+        //             rectangle2: townEnmeny4,
+        //             x: 0,
+        //             y: 0
+        //         })
+                    
+        //          ){
+        //             playerFireBall.draw()
+        //             playerFireBall.position.y = townEnmeny4.position.y
+        //             playerFireBall.position.x = townEnmeny4.position.x
+        //             enemyStat4.ememyHealth = enemyStat4.ememyHealth - .1
+        //             console.log(enemyStat4.ememyHealth)
+        //             firemoving = false
+        //          }
+                
+        //          for (let i = 0; i < boundaries_for_town.length; i++){
+        //             const boundary = boundaries_for_town[i]
+        //             if(
+        //                 rectangularCollisionHouse({
+        //                     rectangle1: playerFireBall,
+        //                     //makes a clone of the boundary object 
+        //                     rectangle2: {
+        //                         ...boundary, 
+        //                         position: {
+        //                             x: boundary.position.x - 6,
+        //                             y: boundary.position.y 
+        //                         }
+        //                     }
+        //                 })
+        //             ){
+                       
+        //                 firemoving = false
+        //                 break
+        //             }
+        //         }   
+                
+        //         if(firemoving == true){
+        //             playerFireBall.draw()
+        //             playerFireBall.position.x -= 6
+        //         }
+                
+        //     }else if(toggledFireBallR == true && rightDone == true){
+        //         playerStats.playerMagic = playerStats.playerMagic - 1
+        //         document.querySelector('#pMagic').innerHTML = 'Magic Level: ' + playerStats.playerMagic
+                
+        //         if( rectangularCollision2({
+        //             rectangle1: playerFireBall,
+        //             //makes a clone of the boundary object 
+        //             rectangle2: townEnmeny4,
+        //             x: 0,
+        //             y: 0
+        //         })
+                    
+        //          ){
+        //             playerFireBall.draw()
+        //             playerFireBall.position.y = townEnmeny4.position.y
+        //             playerFireBall.position.x = townEnmeny4.position.x
+        //             enemyStat4.ememyHealth = enemyStat4.ememyHealth - .05
+        //             console.log(enemyStat4.ememyHealth)
+        //             firemoving = false
+        //          }
+
+        //          for (let i = 0; i < boundaries_for_town.length; i++){
+        //             const boundary = boundaries_for_town[i]
+        //             if(
+        //                 rectangularCollisionHouse({
+        //                     rectangle1: playerFireBall,
+        //                     //makes a clone of the boundary object 
+        //                     rectangle2: {
+        //                         ...boundary, 
+        //                         position: {
+        //                             x: boundary.position.x + 6,
+        //                             y: boundary.position.y 
+        //                         }
+        //                     }
+        //                 })
+        //             ){
+                       
+        //                 firemoving = false
+        //                 break
+        //             }
+        //         }
+
+        //         if(firemoving == true){
+        //             playerFireBall.draw()
+        //             playerFireBall.position.x += 6
+        //         }
+                
+        //     }else if (toggledFireBallU == true && upDone == true){
+        //         playerStats.playerMagic = playerStats.playerMagic - 1
+        //         document.querySelector('#pMagic').innerHTML = 'Magic Level: ' + playerStats.playerMagic
+        //         if( rectangularCollision2({
+        //             rectangle1: playerFireBall,
+        //             //makes a clone of the boundary object 
+        //             rectangle2: townEnmeny4,
+        //             x: 0,
+        //             y: 0
+        //         })
+                    
+        //         ){
+        //             playerFireBall.draw()
+        //             playerFireBall.position.y = townEnmeny4.position.y
+        //             playerFireBall.position.x = townEnmeny4.position.x
+        //             enemyStat4.ememyHealth = enemyStat4.ememyHealth - .05
+        //             console.log(enemyStat4.ememyHealth)
+        //             firemoving = false
+        //         }
+        //         for (let i = 0; i < boundaries_for_town.length; i++){
+        //             const boundary = boundaries_for_town[i]
+        //             if(
+        //                 rectangularCollisionHouse({
+        //                     rectangle1: playerFireBall,
+        //                     //makes a clone of the boundary object 
+        //                     rectangle2: {
+        //                         ...boundary, 
+        //                         position: {
+        //                             x: boundary.position.x,
+        //                             y: boundary.position.y - 6
+        //                         }
+        //                     }
+        //                 })
+        //             ){
+                       
+        //                 firemoving = false
+        //                 break
+        //             }
+        //         }
+
+        //         if(firemoving == true){
+        //             playerFireBall.draw()
+        //             playerFireBall.position.y -= 6
+        //         }
+
+                
+                
+        //     }else if (toggledFireBallD == true && downDone == true){
+        //         playerStats.playerMagic = playerStats.playerMagic - 1
+        //         document.querySelector('#pMagic').innerHTML = 'Magic Level: ' + playerStats.playerMagic
+        //         if( rectangularCollision2({
+        //             rectangle1: playerFireBall,
+        //             //makes a clone of the boundary object 
+        //             rectangle2: townEnmeny4,
+        //             x: 0,
+        //             y: 0
+        //         })
+                    
+        //          ){
+        //             playerFireBall.draw()
+        //             playerFireBall.position.y = townEnmeny4.position.y
+        //             playerFireBall.position.x = townEnmeny4.position.x
+        //             enemyStat4.ememyHealth = enemyStat4.ememyHealth - .05
+        //             console.log(enemyStat4.ememyHealth)
+        //             firemoving = false
+                    
+        //          }
+        //          for (let i = 0; i < boundaries_for_town.length; i++){
+        //             const boundary = boundaries_for_town[i]
+        //             if(
+        //                 rectangularCollisionHouse({
+        //                     rectangle1: playerFireBall,
+        //                     //makes a clone of the boundary object 
+        //                     rectangle2: {
+        //                         ...boundary, 
+        //                         position: {
+        //                             x: boundary.position.x,
+        //                             y: boundary.position.y + 6
+        //                         }
+        //                     }
+        //                 })
+        //             ){
+                       
+        //                 firemoving = false
+        //                 break
+        //             }
+        //         }
+
+        //         if(firemoving == true){
+        //             playerFireBall.draw()
+        //             playerFireBall.position.y += 6
+        //         }
+                
+        //     }
+        //    // console.log(toggledFireBallL)
+        //     setTimeout(throwFire, 2000)
+            
+        //     keys.f.pressed == false
+        //     //toggledFireBallL = false
+
+        // }else if (keys.f.pressed == false){
+        //     console.log('f is not readys')
+        //     playerFireBall.position.y = player3.position.y
+        //     playerFireBall.position.x = player3.position.x
+        // }
+    // end of fire ball feature
+        // if(player3.image == player3.sprites.down) {
+        //     // movableFireBall.forEach(movable => {
+        //     //     movable.position.y = (canvas.height / 2 - 68 / 2) - 50})
+        //     if(keys.f.pressed == true){
+        //         console.log('throwFire')
+        //         if(keys.f.pressed == true ) {
+        //             playerFireBall.position.y += 6
+        //         }
+                
+        //         playerFireBall.draw()
+        //         playerFireBall.position.y += 6
+        //         setTimeout(throwFire, 1000)
+               
+                    
+                    
+        //     }else if(keys.f.pressed == false){
+        //         playerFireBall.position.y = player3.position.y
+        //         playerFireBall.position.x = player3.position.x  
+        //     }
+        // }
+
+        // if(player3.image == player3.sprites.up) {
+        //     // movableFireBall.forEach(movable => {
+        //     //     movable.position.y = (canvas.height / 2 - 68 / 2) - 50})
+        //     if(keys.f.pressed == true){
+        //         console.log('throwFire')
+               
+                
+        //         playerFireBall.draw()
+        //         playerFireBall.position.y -= 6
+        //         setTimeout(throwFire, 1000)
+               
+                    
+                    
+        //     }else if(keys.f.pressed == false){
+        //         playerFireBall.position.y = player3.position.y
+        //         playerFireBall.position.x = player3.position.x  
+        //     }
+        // }
+
+        // if(player3.image == player3.sprites.left) {
+        //     // movableFireBall.forEach(movable => {
+        //     //     movable.position.y = (canvas.height / 2 - 68 / 2) - 50})
+        //     if(keys.f.pressed == true){
+        //         console.log('throwFire')
+               
+                
+        //         playerFireBall.draw()
+        //         playerFireBall.position.x -= 6
+        //         setTimeout(throwFire, 1000)
+               
+                
+                    
+        //     }else if(keys.f.pressed == false){
+        //         playerFireBall.position.y = player3.position.y
+        //         playerFireBall.position.x = player3.position.x  
+        //     }
+                
+        // }
+
+        // if(player3.image == player3.sprites.right) {
+        //     // movableFireBall.forEach(movable => {
+        //     //     movable.position.y = (canvas.height / 2 - 68 / 2) - 50})
+        //     if(keys.f.pressed == true){
+        //         console.log('throwFire')
+               
+                
+        //         playerFireBall.draw()
+        //         playerFireBall.position.x += 6
+        //         setTimeout(throwFire, 1000)
+               
+                
+                    
+        //     }else if(keys.f.pressed == false){
+        //         playerFireBall.position.y = player3.position.y
+        //         playerFireBall.position.x = player3.position.x  
+        //     }
+            
+                
+        // }
+        // if(player3.image == player3.sprites.down) {
+        //     //playerFireBall.position.y = (canvas.height / 2 - 68 / 2) + 50
+        //     playerFireBall.draw()
+        //     movableFireBall.forEach(movable => {
+        //         movable.position.y -= 3})
+                
+        // }
+
 
     if(keys.w.pressed == true && lastKey == 'w') {
         
@@ -1129,6 +1465,252 @@ function enemyAttackTown(player, testBoundary, moving){
     }
 }
 
+function playerFireBallAttack(player, playerFireBall, enemy, 
+    boundaries, enemyStats, playerStats, firemoving){
+        
+    if(keys.f.pressed == true){
+        //playerFireBall.position.y = player.position.y
+        //playerFireBall.position.x = player.position.x  
+        if(player.image == player.sprites.left && rightDone == false && upDone == false && downDone == false && playerStats.playerMagic > 25) {
+            toggledFireBallL = true
+            leftDone = true
+            //console.log('go to go')
+            
+        }else if(player.image == player.sprites.right && leftDone == false && upDone == false && downDone == false && playerStats.playerMagic > 25){
+            toggledFireBallR = true
+            rightDone = true
+        }else if(player.image == player.sprites.up && upDone == false && leftDone == false && rightDone == false && downDone == false && playerStats.playerMagic > 25 ){
+            toggledFireBallU = true
+            upDone = true
+        }else if(player.image == player.sprites.down && downDone == false && leftDone == false && rightDone == false && playerStats.playerMagic > 25){
+            toggledFireBallD = true
+            downDone = true
+        }
+
+        if(toggledFireBallL == true && leftDone == true){
+            playerStats.playerMagic = playerStats.playerMagic - 1
+            document.querySelector('#pMagic').innerHTML = 'Magic Level: ' + playerStats.playerMagic
+            if( rectangularCollision2({
+                rectangle1: playerFireBall,
+                //makes a clone of the boundary object 
+                rectangle2: enemy,
+                x: 0,
+                y: 0
+            })
+                
+             ){
+                playerFireBall.draw()
+                playerFireBall.position.y = enemy.position.y
+                playerFireBall.position.x = enemy.position.x
+                enemyStats.ememyHealth = enemyStats.ememyHealth - .1
+                console.log(enemyStats.ememyHealth)
+                firemoving = false
+             }
+            
+             for (let i = 0; i < boundaries.length; i++){
+                const boundary = boundaries[i]
+                if(
+                    rectangularCollisionHouse({
+                        rectangle1: playerFireBall,
+                        //makes a clone of the boundary object 
+                        rectangle2: {
+                            ...boundary, 
+                            position: {
+                                x: boundary.position.x - 6,
+                                y: boundary.position.y 
+                            }
+                        }
+                    })
+                ){
+                   
+                    firemoving = false
+                    break
+                }
+            }   
+            
+            if(firemoving == true){
+                playerFireBall.draw()
+                playerFireBall.position.x -= 6
+            }
+            
+        }else if(toggledFireBallR == true && rightDone == true){
+            playerStats.playerMagic = playerStats.playerMagic - 1
+            document.querySelector('#pMagic').innerHTML = 'Magic Level: ' + playerStats.playerMagic
+            if( rectangularCollision2({
+                rectangle1: playerFireBall,
+                //makes a clone of the boundary object 
+                rectangle2: enemy,
+                x: 0,
+                y: 0
+            })
+                
+             ){
+                playerFireBall.draw()
+                playerFireBall.position.y = enemy.position.y
+                playerFireBall.position.x = enemy.position.x
+                enemyStats.ememyHealth = enemyStats.ememyHealth - .05
+                console.log(enemyStats.ememyHealth)
+                firemoving = false
+             }
+
+             for (let i = 0; i < boundaries.length; i++){
+                const boundary = boundaries[i]
+                if(
+                    rectangularCollisionHouse({
+                        rectangle1: playerFireBall,
+                        //makes a clone of the boundary object 
+                        rectangle2: {
+                            ...boundary, 
+                            position: {
+                                x: boundary.position.x + 6,
+                                y: boundary.position.y 
+                            }
+                        }
+                    })
+                ){
+                   
+                    firemoving = false
+                    break
+                }
+            }
+
+            if(firemoving == true){
+                playerFireBall.draw()
+                playerFireBall.position.x += 6
+            }
+            
+        }else if (toggledFireBallU == true && upDone == true){
+            playerStats.playerMagic = playerStats.playerMagic - 1
+            document.querySelector('#pMagic').innerHTML = 'Magic Level: ' + playerStats.playerMagic
+            if( rectangularCollision2({
+                rectangle1: playerFireBall,
+                //makes a clone of the boundary object 
+                rectangle2: enemy,
+                x: 0,
+                y: 0
+            })
+                
+            ){
+                playerFireBall.draw()
+                playerFireBall.position.y = enemy.position.y
+                playerFireBall.position.x = enemy.position.x
+                enemyStats.ememyHealth = enemyStats.ememyHealth - .05
+                console.log(enemyStats.ememyHealth)
+                firemoving = false
+            }
+            for (let i = 0; i < boundaries.length; i++){
+                const boundary = boundaries[i]
+                if(
+                    rectangularCollisionHouse({
+                        rectangle1: playerFireBall,
+                        //makes a clone of the boundary object 
+                        rectangle2: {
+                            ...boundary, 
+                            position: {
+                                x: boundary.position.x,
+                                y: boundary.position.y - 6
+                            }
+                        }
+                    })
+                ){
+                   
+                    firemoving = false
+                    break
+                }
+            }
+
+            if(firemoving == true){
+                playerFireBall.draw()
+                playerFireBall.position.y -= 6
+            }
+
+            
+            
+        }else if (toggledFireBallD == true && downDone == true){
+            playerStats.playerMagic = playerStats.playerMagic - 1
+            document.querySelector('#pMagic').innerHTML = 'Magic Level: ' + playerStats.playerMagic
+            if( rectangularCollision2({
+                rectangle1: playerFireBall,
+                //makes a clone of the boundary object 
+                rectangle2: enemy,
+                x: 0,
+                y: 0
+            })
+                
+             ){
+                playerFireBall.draw()
+                playerFireBall.position.y = enemy.position.y
+                playerFireBall.position.x = enemy.position.x
+                enemyStats.ememyHealth = enemyStats.ememyHealth - .05
+                console.log(enemyStats.ememyHealth)
+                firemoving = false
+                
+             }
+             for (let i = 0; i < boundaries.length; i++){
+                const boundary = boundaries[i]
+                if(
+                    rectangularCollisionHouse({
+                        rectangle1: playerFireBall,
+                        //makes a clone of the boundary object 
+                        rectangle2: {
+                            ...boundary, 
+                            position: {
+                                x: boundary.position.x,
+                                y: boundary.position.y + 6
+                            }
+                        }
+                    })
+                ){
+                   
+                    firemoving = false
+                    break
+                }
+            }
+
+            if(firemoving == true){
+                playerFireBall.draw()
+                playerFireBall.position.y += 6
+            }
+            
+        }
+       
+        setTimeout(throwFire, 2000)
+        keys.f.pressed == false
+
+    }else if (keys.f.pressed == false){
+       
+        playerFireBall.position.y = player.position.y
+        playerFireBall.position.x = player.position.x
+    }
+}
+
+function throwFire(){
+    console.log('rev')
+    //console.log(keys.f.pressed)
+    
+   
+    
+    
+    
+    
+        toggledFireBallL = false
+        leftDone = false
+    
+        toggledFireBallR = false
+        rightDone = false
+
+        toggledFireBallU = false
+        upDone = false
+
+        toggledFireBallD = false
+        downDone = false
+        keys.f.pressed = false
+    
+    //playerFireBall.position.y = player3.position.y
+    //playerFireBall.position.x = player3.position.x
+    //console.log(keys.f.pressed)
+}
+
 function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoint, moving, angle, angle2){
     ALC1 = ALC1 + 1;
 
@@ -1597,7 +2179,7 @@ function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, player
                         enemyStat.ememyHealth = enemyStat.ememyHealth - 3
                         console.log('enemy health')
                             console.log(enemyStat.ememyHealth)  
-                    }
+                    }   
                         
                 }
 

@@ -300,7 +300,7 @@ function animatehouse(fps){
         x: 0,
         y: 0
     })){
-        if(keys.f.pressed == true){
+        if(keys.e.pressed == true){
             document.querySelector('#ComputerInterface').style.display = 'block' 
             moving2 = false
             
@@ -387,7 +387,7 @@ function animatehouse(fps){
                         y: 3
                     }))
                     {
-                        if(keys.f.pressed == true){
+                        if(keys.e.pressed == true){
                             document.querySelector('#catNPCInterface').style.display = 'block' 
                             console.log('we jusst want')
                         }else{
@@ -476,7 +476,7 @@ function animatehouse(fps){
                         y: 3
                     }))
                     {
-                        if(keys.f.pressed == true){
+                        if(keys.e.pressed == true){
                             document.querySelector('#catNPCInterface').style.display = 'block' 
                             console.log('we jusst want')
                         }else{
@@ -565,7 +565,7 @@ function animatehouse(fps){
                     y: 3
                 }))
                 {
-                    if(keys.f.pressed == true){
+                    if(keys.e.pressed == true){
                         document.querySelector('#catNPCInterface').style.display = 'block' 
                         console.log('we jusst want')
                     }else{

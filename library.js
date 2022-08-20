@@ -345,7 +345,7 @@ function animateLibrary(){
                             y: -2
                         }) 
                     ){
-                        if(keys.f.pressed == true){
+                        if(keys.e.pressed == true){
                             document.querySelector('#officeNPCInterface').style.display = 'block' 
                             console.log('we just want')
                         }else{
@@ -431,7 +431,7 @@ function animateLibrary(){
                             y: -2
                         }) 
                     ){
-                        if(keys.f.pressed == true){
+                        if(keys.e.pressed == true){
                             document.querySelector('#officeNPCInterface').style.display = 'block' 
                             console.log('office dia')
                         }else{
@@ -770,7 +770,7 @@ function animateLibrary(){
                         y: boundary.position.y + 3
                     }
                 }
-            }) && keys.f.pressed == true
+            }) && keys.e.pressed == true
         ){
             
             moving5 = false

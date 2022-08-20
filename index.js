@@ -35,6 +35,9 @@ const keys = {
     e: {
         pressed: false
     },
+    t: {
+        pressed: false
+    },
     r: {
         pressed: false
     }, 
@@ -148,6 +151,9 @@ window.addEventListener('keydown', (e) => {
             lastKey = 's'
             break  
         case 'f':
+            keys.f.pressed = true
+            break
+        case 'e':
             // we dont need to have lastkey for f becauses
             if(keys.r.pressed == false){
                 dialogueToggled = true
@@ -157,31 +163,31 @@ window.addEventListener('keydown', (e) => {
                 return
             }else if(keys.r.pressed == true){
                 console.log('e is working')
-                keys.f.pressed = true
+                keys.e.pressed = true
                 dialogueToggled = false  
                 keys.r.pressed = false
             }
             break     
         case 'q':
             // we dont need to have lastkey for f becauses
-            if(keys.e.pressed == false){
+            if(keys.t.pressed == false){
                 menuToggled = true
-                keys.e.pressed = true
+                keys.t.pressed = true
                 console.log('q is owrking a')
-                console.log(keys.e.pressed)
+                console.log(keys.t.pressed)
                 return
-            }else if(keys.e.pressed == true){
+            }else if(keys.t.pressed == true){
                 console.log('e is working')
                 keys.q.pressed = true
                 menuToggled = false  
-                keys.e.pressed = false
+                keys.t.pressed = false
             }
             
             
             break
-        case 'e':
+        case 't':
             // we dont need to have lastkey for f becauses
-            keys.e.pressed = true
+            keys.t.pressed = true
             keys.q.pressed = false
             if(gamePaused == true){
                 //window.cancelAnimationFrame(animationId)
@@ -191,11 +197,12 @@ window.addEventListener('keydown', (e) => {
             break  
         case 'r':
             keys.r.pressed = true
-            keys.f.pressed = false     
+            keys.e.pressed = false     
         case 'Shift':
             keys.shift.pressed = true
             timespressed = timespressed + 1
             //lastKey = 'Shift'
+            break
     }
 })
 
@@ -227,8 +234,8 @@ window.addEventListener('keyup', (e) => {
         case 's':
             keys.s.pressed = false
             break
-        case 'f':
-            keys.f.pressed = false
+        case 'e':
+            keys.e.pressed = false
             break     
         case 'q':
             keys.q.pressed = false
@@ -237,5 +244,8 @@ window.addEventListener('keyup', (e) => {
             keys.shift.pressed = false  
             //timespressed = 0
             break
-    }
+        case 'f':
+            
+            break
+    }   
 })
