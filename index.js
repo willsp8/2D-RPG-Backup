@@ -218,7 +218,7 @@ window.addEventListener('keyup', (e) => {
             //keys.space.pressed = false
             break
         case 'Control':
-            keys.control.pressed = false
+            // keys.control.pressed = false
             break
         case 'w':
             // so when w is pressed it will set our keys const w back to false 

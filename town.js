@@ -2057,6 +2057,7 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
 
 function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, playerSwordL, playerSwordD, playerSwordU, moving, enemyStat, spinMoveSprite){
     ALCControl = ALCControl + 1
+    console.log(keys.control.pressed)
     //console.log(ALCControl)
     if(ALCControl == 500){
         
@@ -2069,8 +2070,8 @@ function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, player
     }
     if(spinMoveCoolDown == true && playerStats.playerEnergy > 40){
         // this will tell the player that spin move is ready
-        // spinMoveSprite.animate = true
-        // spinMoveSprite.update()
+        spinMoveSprite.animate = true
+        spinMoveSprite.update()
     }
     if(keys.control.pressed == true && spinMoveCoolDown == true && playerStats.playerEnergy > 40){
         // note we need to change some things 
@@ -2178,10 +2179,16 @@ function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, player
                 }
         
             }
-            setTimeout(spinMoveTimer, 500)
+            // setTimeout(spinMoveTimer, 2000)
+            setTimeout(() => {
+                keys.control.pressed = false
+                spinMoveCoolDown = false
+            }, 2000)
             console.log('nko)')
             //spinMoveCoolDown = false
             
+    }else if(keys.control.pressed == true && spinMoveCoolDown == false){
+        keys.control.pressed = false
     }
     
     //spinMoveCoolDown = false
