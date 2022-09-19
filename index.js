@@ -215,7 +215,7 @@ window.addEventListener('keyup', (e) => {
 
     switch(e.key){
         case ' ':
-            keys.space.pressed = false
+            //keys.space.pressed = false
             break
         case 'Control':
             keys.control.pressed = false

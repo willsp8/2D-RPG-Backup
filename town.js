@@ -32,6 +32,10 @@ const playerRightImage3 = new Image()
 playerRightImage3.src = './res/playerRes/CRight2.png'
 const playerLeftImage3 = new Image()
 playerLeftImage3.src = './res/playerRes/CLeft2.png'
+const playerIdleDownImage3 = new Image()
+playerIdleDownImage3.src = './res/playerRes/CIdle.png'
+const playerIdleUpImage3= new Image()
+playerIdleUpImage3.src = './res/playerRes/CIdleUp.png'
 //enemy
 const enemyDownImage1 = new Image()
 // seting the image src to the image i want to use for the player
@@ -227,16 +231,19 @@ const player3 = new Sprite({
         y: (canvas.height / 2 - 68 / 2)
     }, 
 
-    image: playerDownImage3, 
+    image: playerIdleDownImage3, 
     frames: {
-        max: 3,
-        hold: 3
+        max: 6,
+        hold: 6
     },
+    
     sprites: {
         up: playerUpImage3,
         down: playerDownImage3,
         left: playerLeftImage3,
-        right: playerRightImage3
+        right: playerRightImage3,
+        idleDown: playerIdleDownImage3,
+        idleUp: playerIdleUpImage3
     }
     // this sets up the sprite so we can animate our player moving right, left and etc. 
 })
@@ -245,6 +252,86 @@ const playerSwordR = new Boundary8({
     position: {
         x: (canvas.width / 2 - 192 / 4 / 2) + 50, 
         y: (canvas.height / 2 - 68 / 2)  - 50
+    }
+})
+
+const playerARImage3 = new Image()
+playerARImage3.src = './res/playerRes/playerAttackingRight.png'
+const playerALImage3 = new Image()
+playerALImage3.src = './res/playerRes/playerAttackingLeft.png'
+const playerAUpImage3 = new Image()
+playerAUpImage3.src = './res/playerRes/playerAttackingUp.png'
+const playerADownImage3 = new Image()
+playerADownImage3.src = './res/playerRes/playerAttackingDown.png'
+const playerSwordRsprite = new Sprite2({
+    position: {
+        x: (canvas.width / 2 - 192 / 4 / 2), 
+        y: (canvas.height / 2 - 68 / 2) -49
+    },
+    image: playerARImage3, 
+    frames: {
+        max: 6,
+        hold: 10
+    },
+    sprites: {
+        up: playerARImage3,
+        down: playerARImage3,
+        left: playerALImage3,
+        right: playerARImage3
+    }
+})
+
+const playerSwordLsprite = new Sprite2({
+    position: {
+        x: (canvas.width / 2 - 192 / 4 / 2) - 49, 
+        y: (canvas.height / 2 - 68 / 2) -49
+    },
+    image: playerARImage3, 
+    frames: {
+        max: 6,
+        hold: 10
+    },
+    sprites: {
+        up: playerARImage3,
+        down: playerARImage3,
+        left: playerALImage3,
+        right: playerARImage3
+    }
+})
+
+const playerSwordUpsprite = new Sprite2({
+    position: {
+        x: (canvas.width / 2 - 192 / 4 / 2) - 49, 
+        y: (canvas.height / 2 - 68 / 2) -49
+    },
+    image: playerAUpImage3, 
+    frames: {
+        max: 6,
+        hold: 10
+    },
+    sprites: {
+        up: playerAUpImage3,
+        down: playerARImage3,
+        left: playerALImage3,
+        right: playerARImage3
+    }
+})
+
+const playerSwordDownsprite = new Sprite2({
+    position: {
+        x: (canvas.width / 2 - 192 / 4 / 2) - 49, 
+        y: (canvas.height / 2 - 68 / 2) -49
+    },
+    image: playerADownImage3, 
+    frames: {
+        max: 6,
+        hold: 10
+    },
+    sprites: {
+        up: playerAUpImage3,
+        down: playerADownImage3,
+        left: playerALImage3,
+        right: playerARImage3
     }
 })
 const playerSwordL = new Boundary8({
@@ -376,7 +463,7 @@ function animateTown(){
    // townEnmeny2.drawAI()
     
     //player.drawAI()
-
+    
     AreaBoundary3.draw()
     TestBoundary3.draw()
     StartingPoint3.draw()
@@ -386,15 +473,24 @@ function animateTown(){
     TestBoundary4.draw() 
     // StartingPoint4.draw()
     townEnmeny4.draw()
-
-    player3.drawAI()
+    if(keys.space.pressed == false){
+        player3.draw()
+    }
+    // player3.drawAI()
     let moving3 = true
     let movingnpc_1 = true
     let movingEnemy = true
     let movingEnemy2 = true
     let firemoving = true
-   
+    console.log(keys.space.pressed)
+
     player3.animate = false
+    
+    // if(lastKey == 'w' &&  keys.space.pressed == false){
+    //     console.log('why not')
+    //     player3.image = player3.sprites.idleUp
+    //     player3.animate = true
+    // }
     shiftAllowed = true
 
     //enemy attack system
@@ -418,9 +514,11 @@ function animateTown(){
             enemyAITown(player3, townEnmeny3, TestBoundary3, AreaBoundary3, StartingPoint3, movingEnemy2, angleE3, angleE32)
         })
     // players attack 
-        playerAttackTown(player3, townEnmeny4, TestBoundary4, AreaBoundary4, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy, enemyStat4)
+        playerAttackTown(player3, townEnmeny4, TestBoundary4, AreaBoundary4, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy, enemyStat4, 
+            playerSwordRsprite, playerSwordLsprite, playerSwordUpsprite, playerSwordDownsprite)
         
-        playerAttackTown(player3, townEnmeny3, TestBoundary3, AreaBoundary3, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy2, enemyStat3)
+        playerAttackTown(player3, townEnmeny3, TestBoundary3, AreaBoundary3, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy2, enemyStat3, playerSwordRsprite,
+            playerSwordLsprite, playerSwordUpsprite, playerSwordDownsprite)
         playerAttackSpinTown(townEnmeny3, TestBoundary3, AreaBoundary3, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy2, enemyStat3)
         playerAttackSpinTown( townEnmeny4, TestBoundary4, AreaBoundary4, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy, enemyStat4)
         
@@ -958,6 +1056,12 @@ function animateTown(){
 
     })
 
+    // if(lastKey == 's' &&  keys.space.pressed == false && playerRightSwordSprite.frameCurrent == 0){
+    //     console.log('why not')
+    //     player3.image = player3.sprites.idleDown
+    //     player3.animate = true
+    // }
+
 
 }
 //c.clearRect(0, 0, canvas.width, canvas.height)
@@ -1199,7 +1303,8 @@ function playerFireBallAttack(player, playerFireBall, enemy,
             })
                 
              ){
-                playerFireBall.draw()
+                
+                
                 playerFireBall.position.y = enemy.position.y
                 playerFireBall.position.x = enemy.position.x
                 enemyStats.ememyHealth = enemyStats.ememyHealth - .1
@@ -1270,6 +1375,7 @@ function playerFireBallAttack(player, playerFireBall, enemy,
                 ){
                    
                     firemoving = false
+                    
                     break
                 }
             }
@@ -1715,11 +1821,19 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
             }
 }
 
-function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, playerSwordL, playerSwordD, playerSwordU, moving, enemyStat){
-    if(keys.space.pressed == true){
+function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, playerSwordL, playerSwordD, playerSwordU, moving, enemyStat, playerRightSwordSprite,
+    playerLeftSwordSprite, playerUpSwordSprite, playerDownSwordSprite){
+    if(keys.space.pressed == true ){
         // note we need to change some things 
+        console.log(playerRightSwordSprite.frameCurrent)
         if(player.image == player.sprites.right){
             playerSwordR.draw()
+
+            playerRightSwordSprite.animate = true
+            playerRightSwordSprite.image = playerRightSwordSprite.sprites.up
+            playerRightSwordSprite.update()
+            //playerRightSwordSprite.drawAI()
+
             console.log('hit right ')
             if(rectangularCollision2({
                 rectangle1: playerSwordR,
@@ -1740,11 +1854,23 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
                         
                 
                 }
+                if(playerRightSwordSprite.image = playerRightSwordSprite.sprites.right && playerRightSwordSprite.frameCurrent <  playerRightSwordSprite.frames.max ){ 
+                    console.log('crazy')
+                    return
+                }else{
+                    playerRightSwordSprite.frameCurrent = 0
+                    console.log('22crazy')
+                    keys.space.pressed = false
+                }
+                
             
             
         }
         if(player.image == player.sprites.left){
             playerSwordL.draw()
+            playerLeftSwordSprite.animate = true
+            playerLeftSwordSprite.image = playerLeftSwordSprite.sprites.left
+            playerLeftSwordSprite.update()
             if(rectangularCollision2({
                 rectangle1: playerSwordL,
                 //makes a clone of the boundary object 
@@ -1765,14 +1891,24 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
                             console.log(enemyStat.ememyHealth)  
                     }
                         
-                }
+            }
 
-                
+            if( playerLeftSwordSprite.frameCurrent <  playerLeftSwordSprite.frames.max){ 
+                console.log('crazy')
+                return
+            }else{
+                playerLeftSwordSprite.frameCurrent = 0
+                console.log('22crazy')
+                keys.space.pressed = false
+            }   
             
             
         }
         if(player.image == player.sprites.up){
             playerSwordU.draw()
+            playerUpSwordSprite.animate = true
+            playerUpSwordSprite.image = playerUpSwordSprite.sprites.up
+            playerUpSwordSprite.update()
             console.log('hit up ')
             if(rectangularCollision2({
                 rectangle1: playerSwordU,
@@ -1795,9 +1931,20 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
                 }
                     
             }
+            if( playerUpSwordSprite.frameCurrent <  playerUpSwordSprite.frames.max){ 
+                console.log('crazy')
+                return
+            }else{
+                playerUpSwordSprite.frameCurrent = 0
+                console.log('22crazy')
+                keys.space.pressed = false
+            }  
         }
         if(player.image == player.sprites.down){
             playerSwordD.draw()
+            playerDownSwordSprite.animate = true
+            playerDownSwordSprite.image = playerDownSwordSprite.sprites.down
+            playerDownSwordSprite.update()
             if(rectangularCollision2({
                 rectangle1: playerSwordD,
                 //makes a clone of the boundary object 
@@ -1818,6 +1965,15 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
                 }
         
             }
+
+            if( playerDownSwordSprite.frameCurrent <  playerUpSwordSprite.frames.max){ 
+                console.log('crazy')
+                return
+            }else{
+                playerDownSwordSprite.frameCurrent = 0
+                console.log('22crazy')
+                keys.space.pressed = false
+            } 
         }
     
 

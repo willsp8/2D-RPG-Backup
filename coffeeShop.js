@@ -76,9 +76,10 @@ const player4 = new Sprite({
 
     image: playerDownImage4, 
     frames: {
-        max: 3,
-        hold: 10
+        max: 6,
+        hold: 9
     },
+    
     sprites: {
         up: playerUpImage4,
         down: playerDownImage4,
@@ -149,15 +150,17 @@ function animateCoffeeShop(){
         x: 0,
         y: 0
     })){
+        //keys.e.pressed = true
        if(dialogueToggled == true){
         console.log('args')
         moving4 = false
         document.querySelector('#baristaInterface').style.display = 'block'
-        document.querySelectorAll('button').forEach(button => {
+        document.querySelectorAll('button').forEach((button) => {
             buy1 = true
             button.addEventListener('click', (e) =>{
                 
                 console.log(e.currentTarget.innerHTML)
+                console.log('what')
                 if(e.currentTarget.innerHTML == 'Buy Coffee' && playerStats.playerMoney >= 100 && buy1 == true ){
                    
                         playerStats.playerMoney = playerStats.playerMoney - 100
@@ -166,30 +169,31 @@ function animateCoffeeShop(){
                     
                     document.querySelector('#dialogueBoxForBarista').style.display = 'block'
                     document.querySelector('#dialogueBoxForBarista').innerHTML = 'One Coffee'
-                    
+                    document.querySelector('#pWallet').innerHTML = '$' + playerStats.playerMoney
+                    document.querySelector('#pCoffee').innerHTML = 'Coffee: ' + playerStats.playerCoffee
                     document.querySelector('#dialogueBoxForBarista').addEventListener('click', (e) => {
                         e.currentTarget.style.display = 'none'
                         
                     
                     })
                     //playerStats.playerMoney = playerStats.playerMoney - 100
-                    document.querySelector('#pWallet').innerHTML = '$' + playerStats.playerMoney
-                    document.querySelector('#pCoffee').innerHTML = 'Coffee: ' + playerStats.playerCoffee
+                    
                     buy1 = false
                 }else if(e.currentTarget.innerHTML == 'Buy Green Tea' && playerStats.playerMoney >= 100 && buy1 == true ){
                     playerStats.playerMoney = playerStats.playerMoney - 100
                     playerStats.playerGreenTea = playerStats.playerGreenTea + 1
                     document.querySelector('#dialogueBoxForBarista').style.display = 'block'
                     document.querySelector('#dialogueBoxForBarista').innerHTML = 'One Green Tea'
+                    document.querySelector('#pWallet').innerHTML = '$' + playerStats.playerMoney
+                    document.querySelector('#pGreenTea').innerHTML = 'Green Tea: ' + playerStats.playerGreenTea
                     document.querySelector('#dialogueBoxForBarista').addEventListener('click', (e) => {
                         e.currentTarget.style.display = 'none'
                     })
-                    document.querySelector('#pWallet').innerHTML = '$' + playerStats.playerMoney
-                    document.querySelector('#pGreenTea').innerHTML = 'Green Tea: ' + playerStats.playerGreenTea
+                    
                     buy1 = false
                 }else if(e.currentTarget.innerHTML == 'Buy Coffee' && playerStats.playerMoney <= 100 && buy1 == true ){
                     document.querySelector('#dialogueBoxForBarista').style.display = 'block'
-                    document.querySelector('#dialogueBoxForBarista').innerHTML = 'Sorry you need to get some money'
+                    document.querySelector('#dialogueBoxForBarista').innerHTML = 'Sorry you need to get some more money'
                     
                     document.querySelector('#dialogueBoxForBarista').addEventListener('click', (e) => {
                         e.currentTarget.style.display = 'none'
@@ -198,7 +202,7 @@ function animateCoffeeShop(){
                     })
                 }else if(e.currentTarget.innerHTML == 'Buy Green Tea' && playerStats.playerMoney <= 100 && buy1 == true ){
                     document.querySelector('#dialogueBoxForBarista').style.display = 'block'
-                    document.querySelector('#dialogueBoxForBarista').innerHTML = 'Sorry you need to get some money'
+                    document.querySelector('#dialogueBoxForBarista').innerHTML = 'Sorry you need to get some more money'
                     
                     document.querySelector('#dialogueBoxForBarista').addEventListener('click', (e) => {
                         e.currentTarget.style.display = 'none'
@@ -220,12 +224,12 @@ function animateCoffeeShop(){
     openMenu()
 
     
-
+    
     if(keys.w.pressed == true && lastKey == 'w') {
 
         player4.animate = true
         player4.image = player4.sprites.up
-        
+        keys.r.pressed = true
         for (let i = 0; i < boundaries_for_CoffeeShop.length; i++){
             const boundary = boundaries_for_CoffeeShop[i]
             if(
@@ -259,7 +263,7 @@ function animateCoffeeShop(){
         
         player4.animate = true
         player4.image = player4.sprites.down
-
+        keys.r.pressed = true
         for (let i = 0; i < boundaries_for_CoffeeShop.length; i++){
             const boundary = boundaries_for_CoffeeShop[i]
             if(
@@ -316,7 +320,7 @@ function animateCoffeeShop(){
 
         player4.animate = true
         player4.image = player4.sprites.left
-
+        keys.r.pressed = true
         for (let i = 0; i < boundaries_for_CoffeeShop.length; i++){
             const boundary = boundaries_for_CoffeeShop[i]
             if(
@@ -351,7 +355,7 @@ function animateCoffeeShop(){
 
         player4.animate = true
         player4.image = player4.sprites.right
-
+        keys.r.pressed = true
         for (let i = 0; i < boundaries_for_CoffeeShop.length; i++){
             const boundary = boundaries_for_CoffeeShop[i]
             if(
@@ -381,6 +385,8 @@ function animateCoffeeShop(){
         
        
        // console.log(background.position.x)
+    }else{
+        //keys.e.pressed = true
     }
 } 
 
@@ -403,22 +409,21 @@ function openMenu(){
         document.querySelectorAll('button').forEach(button => {
             
             button.addEventListener('click', (e) =>{
-                use = true
-                use2 = true
+                
                 console.log(e.currentTarget.innerHTML)
-                if(e.currentTarget.innerHTML = 'Use: Coffee' &&  playerStats.playerCoffee > 0 && use == true){
+                if(e.currentTarget.innerHTML = 'Use: Coffee' &&  playerStats.playerCoffee > 0 ){
                     console.log(e.currentTarget.innerHTML)
                     playerStats.playerHealth = playerStats.playerHealth + 25
                     playerStats.playerCoffee = playerStats.playerCoffee - 1
-                    use = false
-                }else if(e.currentTarget.innerHTML = 'Use: Coffee'&&  playerStats.playerCoffee == 0 && use == true ){
+                    
+                }else if(e.currentTarget.innerHTML = 'Use: Coffee'&&  playerStats.playerCoffee == 0){
                     return 
                  }
-                if(e.currentTarget.innerHTML = 'Use: Green Tea' &&  playerStats.playerGreenTea > 0 && use2 == true){
+                if(e.currentTarget.innerHTML = 'Use: Green Tea' &&  playerStats.playerGreenTea > 0){
                     //console.log(e.currentTarget.innerHTML)
                     playerStats.playerHealth = playerStats.playerHealth + 25
                     playerStats.playerGreenTea = playerStats.playerGreenTea - 1
-                    use2 = false
+                    
                 }
             })
         })
