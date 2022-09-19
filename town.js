@@ -255,6 +255,41 @@ const playerSwordR = new Boundary8({
     }
 })
 
+const vertexFireBallImage = new Image()
+vertexFireBallImage.src = './res/playerRes/vertexMagic.png'
+const vertexFireBall = new Sprite2({
+    position: {
+        x: (canvas.width / 2 - 192 / 4 / 2), 
+        y: (canvas.height / 2 - 68 / 2) 
+    },
+    image: vertexFireBallImage, 
+    frames: {
+        max: 8,
+        hold: 4
+    },
+    sprites: {
+        fireball: vertexFireBallImage
+    }
+})
+
+const spinMoveImage = new Image()
+spinMoveImage.src = './res/playerRes/spinMove.png'
+
+const spinMoveSprite = new Sprite2({
+    position: {
+        x: (canvas.width / 2 - 192 / 4 / 2) - 125, 
+        y: (canvas.height / 2 - 68 / 2) - 125
+    },
+    image: spinMoveImage, 
+    frames: {
+        max: 8,
+        hold: 4
+    },
+    sprites: {
+        spinmove: spinMoveImage
+    }
+})
+
 const playerARImage3 = new Image()
 playerARImage3.src = './res/playerRes/playerAttackingRight.png'
 const playerALImage3 = new Image()
@@ -280,6 +315,8 @@ const playerSwordRsprite = new Sprite2({
         right: playerARImage3
     }
 })
+
+
 
 const playerSwordLsprite = new Sprite2({
     position: {
@@ -402,11 +439,11 @@ let coolDownDone = false
 let shiftAllowed = false 
 let spinMoveCoolDown = false
 
-const town_movables = [ playerFireBall, townEnmeny3, townEnmeny4, TestBoundary3, AreaBoundary3, StartingPoint3, TestBoundary4, AreaBoundary4, StartingPoint4, 
+const town_movables = [ vertexFireBall, playerFireBall, townEnmeny3, townEnmeny4, TestBoundary3, AreaBoundary3, StartingPoint3, TestBoundary4, AreaBoundary4, StartingPoint4, 
     ...townBattleZones, townEnmeny2, townEnmeny1, townBackground, ...boundaries_for_town, ...boundaries_for_entering_library, ...boundaries_for_entering_cafe, ...boundaries_for_entering_house]
 const movable_enemy1 = [townEnmeny2, townEnmeny1,  townEnmeny4, TestBoundary3,  TestBoundary4, AreaBoundary4, StartingPoint4]
 const movable_enemy2 = [ townEnmeny3,  TestBoundary3, AreaBoundary3, StartingPoint3,]
-const movableFireBall = [playerFireBall]
+const movableFireBall = [playerFireBall, vertexFireBall]
 function rectangularCollisionHouse({rectangle1, rectangle2}){
     //if the right side of the player is greater than the left side of the red block than they are colliding 
     
@@ -433,6 +470,7 @@ let leftDone = false
 let rightDone = false
 let upDone = false
 let downDone = false
+let isAttacking = false
 
 
 function animateTown(){
@@ -468,12 +506,13 @@ function animateTown(){
     TestBoundary3.draw()
     StartingPoint3.draw()
     townEnmeny3.draw()
+    //spinMoveSprite.draw()
     //playerSwordR.draw()
     // AreaBoundary4.draw()
     TestBoundary4.draw() 
     // StartingPoint4.draw()
     townEnmeny4.draw()
-    if(keys.space.pressed == false){
+    if(isAttacking == false){
         player3.draw()
     }
     // player3.drawAI()
@@ -482,7 +521,7 @@ function animateTown(){
     let movingEnemy = true
     let movingEnemy2 = true
     let firemoving = true
-    console.log(keys.space.pressed)
+    
 
     player3.animate = false
     
@@ -519,8 +558,8 @@ function animateTown(){
         
         playerAttackTown(player3, townEnmeny3, TestBoundary3, AreaBoundary3, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy2, enemyStat3, playerSwordRsprite,
             playerSwordLsprite, playerSwordUpsprite, playerSwordDownsprite)
-        playerAttackSpinTown(townEnmeny3, TestBoundary3, AreaBoundary3, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy2, enemyStat3)
-        playerAttackSpinTown( townEnmeny4, TestBoundary4, AreaBoundary4, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy, enemyStat4)
+        playerAttackSpinTown(townEnmeny3, TestBoundary3, AreaBoundary3, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy2, enemyStat3, spinMoveSprite)
+        playerAttackSpinTown( townEnmeny4, TestBoundary4, AreaBoundary4, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy, enemyStat4, spinMoveSprite)
         
         if(enemyStat4.ememyHealth <= 0 && townEnemyDead == false ){
             playerStats.playerMoney = playerStats.playerMoney + 100
@@ -557,8 +596,8 @@ function animateTown(){
 
         
 
-        playerFireBallAttack(player3, playerFireBall, townEnmeny4, boundaries_for_town, enemyStat4, playerStats, firemoving)
-        playerFireBallAttack(player3, playerFireBall, townEnmeny3, boundaries_for_town, enemyStat3, playerStats, firemoving)
+        playerFireBallAttack(player3, playerFireBall, townEnmeny4, boundaries_for_town, enemyStat4, playerStats, firemoving, vertexFireBall)
+        playerFireBallAttack(player3, playerFireBall, townEnmeny3, boundaries_for_town, enemyStat3, playerStats, firemoving, vertexFireBall)
        
         ALCShift = ALCShift + 1
         if(ALCShift == 200){
@@ -1056,7 +1095,7 @@ function animateTown(){
 
     })
 
-    // if(lastKey == 's' &&  keys.space.pressed == false && playerRightSwordSprite.frameCurrent == 0){
+    // if(lastKey == 's' &&  keys.space.pressed == false &&){
     //     console.log('why not')
     //     player3.image = player3.sprites.idleDown
     //     player3.animate = true
@@ -1270,7 +1309,7 @@ function diftTimer(){
 }
 
 function playerFireBallAttack(player, playerFireBall, enemy, 
-    boundaries, enemyStats, playerStats, firemoving){
+    boundaries, enemyStats, playerStats, firemoving, fireball){
         
     if(keys.f.pressed == true ){
         //playerFireBall.position.y = player.position.y
@@ -1307,6 +1346,8 @@ function playerFireBallAttack(player, playerFireBall, enemy,
                 
                 playerFireBall.position.y = enemy.position.y
                 playerFireBall.position.x = enemy.position.x
+                fireball.position.x = enemy.position.x - 25
+                fireball.position.y = enemy.position.y - 25
                 enemyStats.ememyHealth = enemyStats.ememyHealth - .1
                 console.log(enemyStats.ememyHealth)
                 firemoving = false
@@ -1335,7 +1376,12 @@ function playerFireBallAttack(player, playerFireBall, enemy,
             
             if(firemoving == true){
                 playerFireBall.draw()
+                fireball.image = fireball.sprites.fireball
+                fireball.animate = true
+                fireball.update()
+                fireball.position.x -=6
                 playerFireBall.position.x -= 6
+                
             }
             
         }else if(toggledFireBallR == true && rightDone == true){
@@ -1353,6 +1399,8 @@ function playerFireBallAttack(player, playerFireBall, enemy,
                 playerFireBall.draw()
                 playerFireBall.position.y = enemy.position.y
                 playerFireBall.position.x = enemy.position.x
+                fireball.position.x = enemy.position.x - 25
+                fireball.position.y = enemy.position.y - 25
                 enemyStats.ememyHealth = enemyStats.ememyHealth - .05
                 console.log(enemyStats.ememyHealth)
                 firemoving = false
@@ -1382,6 +1430,10 @@ function playerFireBallAttack(player, playerFireBall, enemy,
 
             if(firemoving == true){
                 playerFireBall.draw()
+                fireball.image = fireball.sprites.fireball
+                fireball.animate = true
+                fireball.update()
+                fireball.position.x +=6
                 playerFireBall.position.x += 6
             }
             
@@ -1400,6 +1452,8 @@ function playerFireBallAttack(player, playerFireBall, enemy,
                 playerFireBall.draw()
                 playerFireBall.position.y = enemy.position.y
                 playerFireBall.position.x = enemy.position.x
+                fireball.position.x = enemy.position.x -25
+                fireball.position.y = enemy.position.y - 25
                 enemyStats.ememyHealth = enemyStats.ememyHealth - .05
                 console.log(enemyStats.ememyHealth)
                 firemoving = false
@@ -1427,6 +1481,10 @@ function playerFireBallAttack(player, playerFireBall, enemy,
 
             if(firemoving == true){
                 playerFireBall.draw()
+                fireball.image = fireball.sprites.fireball
+                fireball.animate = true
+                fireball.update()
+                fireball.position.y -= 6
                 playerFireBall.position.y -= 6
             }
 
@@ -1447,6 +1505,8 @@ function playerFireBallAttack(player, playerFireBall, enemy,
                 playerFireBall.draw()
                 playerFireBall.position.y = enemy.position.y
                 playerFireBall.position.x = enemy.position.x
+                fireball.position.x = enemy.position.x - 25
+                fireball.position.y = enemy.position.y - 25
                 enemyStats.ememyHealth = enemyStats.ememyHealth - .05
                 console.log(enemyStats.ememyHealth)
                 firemoving = false
@@ -1475,6 +1535,10 @@ function playerFireBallAttack(player, playerFireBall, enemy,
 
             if(firemoving == true){
                 playerFireBall.draw()
+                fireball.image = fireball.sprites.fireball
+                fireball.animate = true
+                fireball.update()
+                fireball.position.y +=6
                 playerFireBall.position.y += 6
             }
             
@@ -1487,6 +1551,8 @@ function playerFireBallAttack(player, playerFireBall, enemy,
        
         playerFireBall.position.y = player.position.y
         playerFireBall.position.x = player.position.x
+        fireball.position.y = player.position.y - 25
+        fireball.position.x = player.position.x - 25
     }
 }
 
@@ -1824,6 +1890,7 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
 function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, playerSwordL, playerSwordD, playerSwordU, moving, enemyStat, playerRightSwordSprite,
     playerLeftSwordSprite, playerUpSwordSprite, playerDownSwordSprite){
     if(keys.space.pressed == true ){
+        isAttacking = true
         // note we need to change some things 
         console.log(playerRightSwordSprite.frameCurrent)
         if(player.image == player.sprites.right){
@@ -1977,14 +2044,22 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
         }
     
 
+    }else{
+        isAttacking = false
+        // if(lastKey == 's' ){
+        //     player.draw()
+        //     console.log('why not')
+        //     player.image = player.sprites.idleDown
+        //     player.animate = true
+        // }
     }
 }
 
-function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, playerSwordL, playerSwordD, playerSwordU, moving, enemyStat){
+function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, playerSwordL, playerSwordD, playerSwordU, moving, enemyStat, spinMoveSprite){
     ALCControl = ALCControl + 1
     //console.log(ALCControl)
     if(ALCControl == 500){
-        console.log(' spin is ready')
+        
         spinMoveCoolDown = true
         ALCControl = 0
         if(playerStats.playerEnergy < 1001){
@@ -1992,8 +2067,16 @@ function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, player
             document.querySelector('#pEnergy').innerHTML = 'Enegry Level: ' + playerStats.playerEnergy
         }
     }
+    if(spinMoveCoolDown == true && playerStats.playerEnergy > 40){
+        // this will tell the player that spin move is ready
+        // spinMoveSprite.animate = true
+        // spinMoveSprite.update()
+    }
     if(keys.control.pressed == true && spinMoveCoolDown == true && playerStats.playerEnergy > 40){
         // note we need to change some things 
+        spinMoveSprite.animate = true
+        spinMoveSprite.update()
+
         playerStats.playerEnergy = playerStats.playerEnergy - 1
         document.querySelector('#pEnergy').innerHTML = 'Enegry Level: ' + playerStats.playerEnergy
             playerSwordR.draw()
