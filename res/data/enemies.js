@@ -18,18 +18,18 @@ enemyDownImage2.src = './res/playerRes/EmDown.png'
 const enemyUpImage2 = new Image()
 enemyUpImage2.src = './res/playerRes/EmUp.png'
 const enemyRightImage2 = new Image()
-enemyRightImage2.src = './res/playerRes/EmUp.png'
+enemyRightImage2.src = './res/playerRes/enemyRight.png'
 const enemyLeftImage2 = new Image()
-enemyLeftImage2.src = './res/playerRes/EMLeft.png'
+enemyLeftImage2.src = './res/playerRes/enemyLeft.png'
 
 const townEnmeny3 = new Sprite({
     position: {
         x: (canvas.width / 2 - 192 / 4 / 2) - 500, 
         y: (canvas.height / 2 - 68 / 2) + 500
     },
-    image: enemyDownImage2,
+    image: enemyLeftImage2,
     frames: {
-        max: 3,
+        max: 6,
         hold: 3
     },
     
@@ -69,9 +69,9 @@ const townEnmeny4 = new Sprite({
         x: (canvas.width / 2 - 192 / 4 / 2) - 500, 
         y: (canvas.height / 2 - 68 / 2) + 200
     },
-    image: enemyDownImage2,
+    image: enemyLeftImage2,
     frames: {
-        max: 3,
+        max: 6,
         hold: 3
     },
     

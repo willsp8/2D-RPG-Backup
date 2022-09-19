@@ -544,6 +544,7 @@ function animateTown(){
     if(isAttacking == false && enemyIsAttacking == false){
         console.log(enemyIsAttacking)
         player3.draw()
+        
     }else if(enemyIsAttacking == true){
         if(player3.image == player3.sprites.down){
             playerHit.image = playerHit.sprites.playerhitDown
@@ -566,7 +567,12 @@ function animateTown(){
             playerHit.update()
         }
     }
-    
+    // if(player3.image == player3.sprites.left &&isAttacking == false && enemyIsAttacking == false ){
+    //     player3.image = player3.sprites.idleDown
+    //     player3.animate = true
+    //     player3.draw()
+    // }
+
     // player3.drawAI()
     let moving3 = true
     let movingnpc_1 = true
@@ -1609,6 +1615,8 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                     {
                         if(angle >= 1.7 && angle < 3.2)
                         {
+                            enemy.image = enemy.sprites.left
+                            enemy.animate = true
                             enemy.position.x -= angle
                             enemy.position.y += angle
                             //attack 
@@ -1618,9 +1626,12 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                             //area to start following player
                             areaBoundary.position.x -= angle
                             areaBoundary.position.y += angle
+                            
                             console.log('on  3')
                         }else if(angle <= -1 && angle < -1.7)
                         {
+                            enemy.image = enemy.sprites.left
+                            enemy.animate = true
                             enemy.position.x += angle
                             enemy.position.y += angle
                             // attack
@@ -1633,6 +1644,8 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                         }
                         if(angle >= -1.7 && angle < -.01)
                         {
+                            enemy.image = enemy.sprites.right
+                            enemy.animate = true
                             console.log('on  1')
                             enemy.position.x -= angle - 3
                             enemy.position.y += angle 
@@ -1643,6 +1656,8 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                             areaBoundary.position.x -= angle - 3
                             areaBoundary.position.y += angle
                         }else if(angle >= -.01 && angle < 1.7){
+                            enemy.image = enemy.sprites.right
+                            enemy.animate = true
                             enemy.position.x += angle + 2
                             enemy.position.y += angle + 2
                             //attack
@@ -1665,6 +1680,8 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                     {
                         if(angle2 >= 1.7 && angle2 < 3.2)
                         {
+                            enemy.image = enemy.sprites.left
+                            enemy.animate = true
                             enemy.position.x -= angle2
                             enemy.position.y += angle2
                             //attack 
@@ -1677,6 +1694,8 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                             console.log('on  3')
                         }else if(angle2 <= -1 && angle2 < -1.7)
                         {
+                            enemy.image = enemy.sprites.left
+                            enemy.animate = true
                             enemy.position.x += angle2
                             enemy.position.y += angle2
                             // attack
@@ -1689,6 +1708,8 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                         }
                         if(angle2 >= -1.7 && angle2 < -.01)
                         {
+                            enemy.image = enemy.sprites.right
+                            enemy.animate = true
                             console.log('on  1')
                             enemy.position.x -= angle2 - 3
                             enemy.position.y += angle2 
@@ -1699,6 +1720,8 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                             areaBoundary.position.x -= angle2 - 3
                             areaBoundary.position.y += angle2
                         }else if(angle2 >= -.01 && angle2 < 1.7){
+                            enemy.image = enemy.sprites.right
+                            enemy.animate = true
                             enemy.position.x += angle2 + 2
                             enemy.position.y += angle2 + 2
                             //attack
@@ -1719,6 +1742,8 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                             y: 0
                         })
                     ){
+                        enemy.image = enemy.sprites.right 
+                        enemy.animate = true
                         enemy.position.x += 9
                             
                             //attack 
@@ -1867,8 +1892,10 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
                             y: 0
                         })
                     ){
+                        enemy.image = enemy.sprites.left  
+                        enemy.animate = true
                         enemy.position.x -= 9
-                            
+                          
                             //attack 
                              testBoundary.position.x -= 9
                             
