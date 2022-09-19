@@ -272,6 +272,32 @@ const vertexFireBall = new Sprite2({
     }
 })
 
+const playerhitImage = new Image()
+playerhitImage.src = './res/playerRes/hitdown.png'
+const playerhitUpImage = new Image()
+playerhitUpImage.src = './res/playerRes/hitUp.png'
+const playerhitLeftImage = new Image()
+playerhitLeftImage.src = './res/playerRes/hitLeft.png'
+const playerhitRightImage = new Image()
+playerhitRightImage.src = './res/playerRes/hitRight.png'
+const playerHit = new Sprite({
+    position: {
+        x: (canvas.width / 2 - 192 / 4 / 2), 
+        y: (canvas.height / 2 - 68 / 2)
+    },
+    image: playerhitImage, 
+    frames: {
+        max: 3,
+        hold: 6
+    },
+    sprites: {
+        playerhitDown: playerhitImage,
+        playerHitUp: playerhitUpImage,
+        playerHitLeft: playerhitLeftImage,
+        playerHitRight: playerhitRightImage
+
+    }
+})
 const spinMoveImage = new Image()
 spinMoveImage.src = './res/playerRes/spinMove.png'
 
@@ -315,6 +341,8 @@ const playerSwordRsprite = new Sprite2({
         right: playerARImage3
     }
 })
+
+
 
 
 
@@ -471,7 +499,8 @@ let rightDone = false
 let upDone = false
 let downDone = false
 let isAttacking = false
-
+let enemyIsAttacking = false
+let playerWasHit = false
 
 function animateTown(){
     const townAnimateId =  window.requestAnimationFrame(animateTown)
@@ -508,13 +537,36 @@ function animateTown(){
     townEnmeny3.draw()
     //spinMoveSprite.draw()
     //playerSwordR.draw()
-    // AreaBoundary4.draw()
+    // AreaBoundary4.draw()s
     TestBoundary4.draw() 
     // StartingPoint4.draw()
     townEnmeny4.draw()
-    if(isAttacking == false){
+    if(isAttacking == false && enemyIsAttacking == false){
+        console.log(enemyIsAttacking)
         player3.draw()
+    }else if(enemyIsAttacking == true){
+        if(player3.image == player3.sprites.down){
+            playerHit.image = playerHit.sprites.playerhitDown
+            playerHit.animate = true
+            playerHit.update()
+        }
+        if(player3.image == player3.sprites.up){
+            playerHit.image = playerHit.sprites.playerHitUp
+            playerHit.animate = true
+            playerHit.update()
+        }
+        if(player3.image == player3.sprites.left){
+            playerHit.image = playerHit.sprites.playerHitLeft
+            playerHit.animate = true
+            playerHit.update()
+        }
+        if(player3.image == player3.sprites.right){
+            playerHit.image = playerHit.sprites.playerHitRight
+            playerHit.animate = true
+            playerHit.update()
+        }
     }
+    
     // player3.drawAI()
     let moving3 = true
     let movingnpc_1 = true
@@ -1185,12 +1237,13 @@ function animateTown(){
 
 
 function enemyAttackTown(player, testBoundary, moving){
-    
+   
+
     if(rectangularCollision2({
         rectangle1: player,
         //makes a clone of the boundary object 
         rectangle2: testBoundary,
-        x: 6,
+        x: 0,
         y: 0
     }))
     {
@@ -1199,107 +1252,54 @@ function enemyAttackTown(player, testBoundary, moving){
         //console.log('player hit')
         
         ALC3 = ALC3 + 1
-        if(ALC3 == 50 ){
+        if(ALC3 == 100 ){
             
-            if(ALC4  <= 9 ){
-                testBoundary.draw()
-                console.log('player was attacked')
-                playerStats.playerHealth = playerStats.playerHealth - 1
-                document.querySelector('#pHealth').innerHTML = 'Health Level: ' + playerStats.playerHealth
-                console.log(playerStats.playerHealth)
+            if(ALC4  <= 1000 ){
+                enemyIsAttacking = true
                 ALC4 = ALC4 + 1
             }else{
                 ALC4 = 0
-            }
+            } 
             ALC3 = 0
         }
+
+        if(enemyIsAttacking == true){
             
-        // cat2.position.x -= 5
-        // testBoundary.position.x -= 5
-    }else if(rectangularCollision2({
-        rectangle1: testBoundary,
-        //makes a clone of the boundary object 
-        rectangle2: player,
-        x: -6,
-        y: 0
-    }))
-    {
-        moving = false
-        ALC5 = ALC5 + 1
-        if(ALC5 == 50){
-            
-            if(ALC6  <= 9 ){
-                testBoundary.draw()
-                console.log('player was attacked')
-                playerStats.playerHealth = playerStats.playerHealth - 1
-                document.querySelector('#pHealth').innerHTML = 'Health Level: ' + playerStats.playerHealth
-                console.log(playerStats.playerHealth)
-                ALC6 = ALC6 + 1
-            }else{
-                ALC6 = 0
+            //testBoundary.draw()
+            console.log('player was attacked')
+            playerStats.playerHealth = playerStats.playerHealth - .5
+            document.querySelector('#pHealth').innerHTML = 'Health Level: ' + playerStats.playerHealth
+            console.log(playerStats.playerHealth)
+            if(player.image == player.sprites.down){
+                playerHit.image = playerHit.sprites.playerhitDown
+                playerHit.animate = true
+                playerHit.update()
             }
-            ALC5 = 0
-        }
-        
-        // cat2.position.x += 5
-        // testBoundary.position.x += 5
-    } else if(rectangularCollision2({
-        rectangle1: testBoundary,
-        //makes a clone of the boundary object 
-        rectangle2: player,
-        x: 0,
-        y: 6
-    }))
-    {   
-        moving = false
-       // console.log('player hit')
-        ALC7 = ALC7 + 1
-        if(ALC7 == 50 ){
-            
-            if(ALC8  <= 9 ){
-                testBoundary.draw()
-                console.log('player was attacked')
-                playerStats.playerHealth = playerStats.playerHealth - 1
-                document.querySelector('#pHealth').innerHTML = 'Health Level: ' + playerStats.playerHealth
-                console.log(playerStats.playerHealth)
-                ALC8 = ALC8 + 1
-            }else{
-                ALC8 = 0
+            if(player.image == player.sprites.up){
+                playerHit.image = playerHit.sprites.playerHitUp
+                playerHit.animate = true
+                playerHit.update()
             }
-            ALC7 = 0
-        }
-        
-        // cat2.position.y -= 5
-        // testBoundary.position.y -= 5
-    }else if(rectangularCollision2({
-        rectangle1: testBoundary,
-        //makes a clone of the boundary object 
-        rectangle2: player,
-        x: 0,
-        y: -6
-    }))
-    {
-        moving = false
-        console.log('player hit')
-        ALC9 = ALC9 + 1
-        if(ALC9 == 50 ){
-            
-            if(ALC10  <= 9 ){
-                testBoundary.draw()
-                console.log('player was attacked')
-                playerStats.playerHealth = playerStats.playerHealth - 1
-                document.querySelector('#pHealth').innerHTML = 'Health Level: ' + playerStats.playerHealth
-                console.log(playerStats.playerHealth)
-                ALC10 = ALC10 + 1
-            }else{
-                ALC10 = 0
+            if(player.image == player.sprites.left){
+                playerHit.image = playerHit.sprites.playerHitLeft
+                playerHit.animate = true
+                playerHit.update()
             }
-            ALC9 = 0
+            if(player.image == player.sprites.right){
+                playerHit.image = playerHit.sprites.playerHitRight
+                playerHit.animate = true
+                playerHit.update()
+            }
+            setTimeout(() => {
+                
+                enemyIsAttacking = false
+            }, 500)
+        }{
+            
         }
-        // cat2.position.y += 5
-        // testBoundary.position.y += 5
+         
     }else{
-       
+        
     }
 }
 
@@ -1544,8 +1544,17 @@ function playerFireBallAttack(player, playerFireBall, enemy,
             
         }
        
-        setTimeout(throwFire, 2000)
-        keys.f.pressed == false
+        setTimeout(() => {
+            toggledFireBallR = false
+            rightDone = false
+
+            toggledFireBallU = false
+            upDone = false
+
+            toggledFireBallD = false
+            downDone = false
+            keys.f.pressed = false
+        }, 2000)
 
     }else if (keys.f.pressed == false){
        
@@ -1889,7 +1898,7 @@ function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoi
 
 function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, playerSwordL, playerSwordD, playerSwordU, moving, enemyStat, playerRightSwordSprite,
     playerLeftSwordSprite, playerUpSwordSprite, playerDownSwordSprite){
-    if(keys.space.pressed == true ){
+    if(keys.space.pressed == true && enemyIsAttacking == false){
         isAttacking = true
         // note we need to change some things 
         console.log(playerRightSwordSprite.frameCurrent)
@@ -2057,7 +2066,7 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
 
 function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, playerSwordL, playerSwordD, playerSwordU, moving, enemyStat, spinMoveSprite){
     ALCControl = ALCControl + 1
-    console.log(keys.control.pressed)
+    
     //console.log(ALCControl)
     if(ALCControl == 500){
         
@@ -2070,8 +2079,8 @@ function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, player
     }
     if(spinMoveCoolDown == true && playerStats.playerEnergy > 40){
         // this will tell the player that spin move is ready
-        spinMoveSprite.animate = true
-        spinMoveSprite.update()
+        // spinMoveSprite.animate = true
+        // spinMoveSprite.update()
     }
     if(keys.control.pressed == true && spinMoveCoolDown == true && playerStats.playerEnergy > 40){
         // note we need to change some things 

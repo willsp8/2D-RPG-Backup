@@ -205,9 +205,9 @@ class Sprite2{
         if(this.framesElapsed % this.frames.hold == 0){
             if(this.frameCurrent < this.frames.max ){
                 this.frameCurrent++
-                console.log('loglog')
+                
             }else{
-                console.log('aloadglog')
+                
                 this.frameCurrent = 0
             }
         }
