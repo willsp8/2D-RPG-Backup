@@ -415,12 +415,12 @@ function openMenu(){
             button.addEventListener('click', (e) =>{
                 
                 console.log(e.currentTarget.innerHTML)
-                if(e.currentTarget.innerHTML == 'Use: Coffee' &&  playerStats.playerCoffee > 0 && useCoffee == true){
+                if(e.currentTarget.innerHTML == 'Use: Coffee' && playerStats.playerHealth <= 75 && playerStats.playerCoffee > 0 && useCoffee == true){
                     console.log(e.currentTarget.innerHTML)
                     playerStats.playerHealth = playerStats.playerHealth + 25
                     playerStats.playerCoffee = playerStats.playerCoffee - 1
                     useCoffee = false
-                }else if(e.currentTarget.innerHTML == 'Use: Coffee'&&  playerStats.playerCoffee == 0){
+                }else if(e.currentTarget.innerHTML == 'Use: Coffee' &&  playerStats.playerCoffee == 0){
                     return 
                  }
                 if(e.currentTarget.innerHTML == 'Use: Green Tea' &&  playerStats.playerGreenTea > 0 && useGreenTea == true){
