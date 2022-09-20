@@ -36,6 +36,10 @@ const playerIdleDownImage3 = new Image()
 playerIdleDownImage3.src = './res/playerRes/CIdle.png'
 const playerIdleUpImage3= new Image()
 playerIdleUpImage3.src = './res/playerRes/CIdleUp.png'
+const playerIdleLeftImage3= new Image()
+playerIdleLeftImage3.src = './res/playerRes/playerIdleLeft.png'
+const playerIdleRightImage3= new Image()
+playerIdleRightImage3.src = './res/playerRes/playerIdleRight.png'
 //enemy
 const enemyDownImage1 = new Image()
 // seting the image src to the image i want to use for the player
@@ -243,7 +247,9 @@ const player3 = new Sprite({
         left: playerLeftImage3,
         right: playerRightImage3,
         idleDown: playerIdleDownImage3,
-        idleUp: playerIdleUpImage3
+        idleUp: playerIdleUpImage3,
+        idleRight: playerIdleRightImage3,
+        idleLeft: playerIdleLeftImage3
     }
     // this sets up the sprite so we can animate our player moving right, left and etc. 
 })
@@ -592,6 +598,7 @@ function animateTown(){
     townEnmeny4.draw()
     if(isAttacking == false && enemyIsAttacking == false && playerStats.playerHealth > 0){
         console.log(enemyIsAttacking)
+        
         player3.draw()
         
     }else if(enemyIsAttacking == true){
@@ -749,6 +756,48 @@ function animateTown(){
             ALCShift = 0
             
         }
+
+    if(keys.w.pressed == false && keys.a.pressed == false &&
+        keys.s.pressed == false && keys.d.pressed == false &&
+        isAttacking == false && enemyIsAttacking == false && keys.space.pressed == false && 
+        playerStats.playerHealth > 0 && playerHit.animate == false
+        )
+    {
+            console.log(enemyIsAttacking)
+            if(player3.image ==  player3.sprites.down && enemyIsAttacking == false){
+                player3.image = player3.sprites.idleDown
+            }else if(player3.image ==  player3.sprites.up){
+                player3.image = player3.sprites.idleUp
+            }else if(player3.image ==  player3.sprites.right){
+                player3.image = player3.sprites.idleRight
+            }else if(player3.image ==  player3.sprites.left){
+                player3.image = player3.sprites.idleLeft
+            }
+            player3.animate = true
+            player3.draw()
+    }else if(enemyIsAttacking == true){
+        console.log('whats up')
+        if(player3.image == player3.sprites.down){
+            playerHit.image = playerHit.sprites.playerhitDown
+            playerHit.animate = true
+            playerHit.update()
+        }
+        if(player3.image == player3.sprites.up){
+            playerHit.image = playerHit.sprites.playerHitUp
+            playerHit.animate = true
+            playerHit.update()
+        }
+        if(player3.image == player3.sprites.left){
+            playerHit.image = playerHit.sprites.playerHitLeft
+            playerHit.animate = true
+            playerHit.update()
+        }
+        if(player3.image == player3.sprites.right){
+            playerHit.image = playerHit.sprites.playerHitRight
+            playerHit.animate = true
+            playerHit.update()
+        }
+    }
 
 
     if(keys.w.pressed == true && lastKey == 'w') {
@@ -1362,22 +1411,22 @@ function enemyAttackTown(player, testBoundary, moving, enemyDead){
             playerStats.playerHealth = playerStats.playerHealth - .5
             document.querySelector('#pHealth').innerHTML = 'Health Level: ' + playerStats.playerHealth
             console.log(playerStats.playerHealth)
-            if(player.image == player.sprites.down){
+            if(player.image == player.sprites.down || player.image == player.sprites.idleDown){
                 playerHit.image = playerHit.sprites.playerhitDown
                 playerHit.animate = true
                 playerHit.update()
             }
-            if(player.image == player.sprites.up){
+            if(player.image == player.sprites.up || player.image == player.sprites.idleUp){
                 playerHit.image = playerHit.sprites.playerHitUp
                 playerHit.animate = true
                 playerHit.update()
             }
-            if(player.image == player.sprites.left){
+            if(player.image == player.sprites.left || player.image == player.sprites.idleLeft){
                 playerHit.image = playerHit.sprites.playerHitLeft
                 playerHit.animate = true
                 playerHit.update()
             }
-            if(player.image == player.sprites.right){
+            if(player.image == player.sprites.right || player.image == player.sprites.idleRight){
                 playerHit.image = playerHit.sprites.playerHitRight
                 playerHit.animate = true
                 playerHit.update()
@@ -1660,24 +1709,18 @@ function playerFireBallAttack(player, playerFireBall, enemy,
 function throwFire(){
     console.log('rev')
     //console.log(keys.f.pressed)
-    
-   
-    
-    
-    
-    
-        toggledFireBallL = false
-        leftDone = false
-    
-        toggledFireBallR = false
-        rightDone = false
+    toggledFireBallL = false
+    leftDone = false
 
-        toggledFireBallU = false
-        upDone = false
+    toggledFireBallR = false
+    rightDone = false
 
-        toggledFireBallD = false
-        downDone = false
-        keys.f.pressed = false
+    toggledFireBallU = false
+    upDone = false
+
+    toggledFireBallD = false
+    downDone = false
+    keys.f.pressed = false
     
     //playerFireBall.position.y = player3.position.y
     //playerFireBall.position.x = player3.position.x
@@ -2055,7 +2098,8 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
         isAttacking = true
         // note we need to change some things 
         console.log(playerRightSwordSprite.frameCurrent)
-        if(player.image == player.sprites.right){
+        
+        if(player.image == player.sprites.right || player.image == player.sprites.idleRight){
             //playerSwordR.draw()
 
             playerRightSwordSprite.animate = true
@@ -2097,7 +2141,7 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
             
             
         }
-        if(player.image == player.sprites.left){
+        if(player.image == player.sprites.left || player.image == player.sprites.idleLeft){
             //playerSwordL.draw()
             playerLeftSwordSprite.animate = true
             playerLeftSwordSprite.image = playerLeftSwordSprite.sprites.left
@@ -2136,7 +2180,7 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
             
             
         }
-        if(player.image == player.sprites.up){
+        if(player.image == player.sprites.up || player.image == player.sprites.idleUp){
             //playerSwordU.draw()
             playerUpSwordSprite.animate = true
             playerUpSwordSprite.image = playerUpSwordSprite.sprites.up
@@ -2177,7 +2221,7 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
                 keys.space.pressed = false
             }  
         }
-        if(player.image == player.sprites.down){
+        if(player.image == player.sprites.down || player.image == player.sprites.idleDown  ){
             //playerSwordD.draw()
             playerDownSwordSprite.animate = true
             playerDownSwordSprite.image = playerDownSwordSprite.sprites.down
