@@ -54,10 +54,10 @@ const townEnmeny3 = new Sprite({
 
 
 
-const TestBoundary3 = new Boundary5({
+const TestBoundary3 = new Boundary3({
     position: {
-        x: (canvas.width / 2 - 192 / 4 / 2) - 515, 
-        y: (canvas.height / 2 - 68 / 2) + 485
+        x: (canvas.width / 2 - 192 / 4 / 2) - 495, 
+        y: (canvas.height / 2 - 68 / 2) + 500
     }
 })
 
@@ -98,10 +98,10 @@ const townEnmeny4 = new Sprite({
     }
 })
 
-const TestBoundary4 = new Boundary5({
+const TestBoundary4 = new Boundary3({
     position: {
-        x: (canvas.width / 2 - 192 / 4 / 2) - 515, 
-        y: (canvas.height / 2 - 68 / 2) + 190
+        x: (canvas.width / 2 - 192 / 4 / 2) - 495, 
+        y: (canvas.height / 2 - 68 / 2) + 200
     }
 })
 
