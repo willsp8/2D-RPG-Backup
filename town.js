@@ -2171,10 +2171,7 @@ function playerAttackSpinTown(player, enemy, enmeySword, enemyArea, playerSwordR
         
         spinMoveCoolDown = true
         ALCControl = 0
-        if(playerStats.playerEnergy < 1001){
-            playerStats.playerEnergy = playerStats.playerEnergy + 20
-            document.querySelector('#pEnergy').innerHTML = 'Enegry Level: ' + playerStats.playerEnergy
-        }
+        
     }
     if(spinMoveCoolDown == true && playerStats.playerEnergy > 40){
         // this will tell the player that spin move is ready

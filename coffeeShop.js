@@ -415,18 +415,42 @@ function openMenu(){
             button.addEventListener('click', (e) =>{
                 
                 console.log(e.currentTarget.innerHTML)
-                if(e.currentTarget.innerHTML == 'Use: Coffee' && playerStats.playerHealth <= 75 && playerStats.playerCoffee > 0 && useCoffee == true){
+                if(e.currentTarget.innerHTML == 'Use: Coffee' && playerStats.playerCoffee > 0 && useCoffee == true){
                     console.log(e.currentTarget.innerHTML)
-                    playerStats.playerHealth = playerStats.playerHealth + 25
-                    playerStats.playerCoffee = playerStats.playerCoffee - 1
+                    if(playerStats.playerHealth <= 75 ){
+                        playerStats.playerHealth = playerStats.playerHealth + 25
+                    }else if (playerStats.playerHealth > 75){
+                        playerStats.playerHealth = 100
+                    }
+                    if(playerStats.playerHealth < 100){
+                        playerStats.playerCoffee = playerStats.playerCoffee - 1
+                    }
+                    
+                    document.querySelector('#pHealth').innerHTML = 'Health Level: ' + playerStats.playerHealth
                     useCoffee = false
                 }else if(e.currentTarget.innerHTML == 'Use: Coffee' &&  playerStats.playerCoffee == 0){
                     return 
                  }
-                if(e.currentTarget.innerHTML == 'Use: Green Tea' &&  playerStats.playerGreenTea > 0 && useGreenTea == true){
+                if(e.currentTarget.innerHTML == 'Use: Green Tea' && playerStats.playerGreenTea > 0 && useGreenTea == true){
                     //console.log(e.currentTarget.innerHTML)
-                    playerStats.playerHealth = playerStats.playerHealth + 25
-                    playerStats.playerGreenTea = playerStats.playerGreenTea - 1
+                    if(playerStats.playerMagic <= 900){
+                        playerStats.playerMagic = playerStats.playerMagic + 100
+                    }else if (playerStats.playerMagic > 900){
+                        playerStats.playerMagic = 1000
+                    }
+
+                    if(playerStats.playerEnergy <= 900){
+                        playerStats.playerEnergy = playerStats.playerEnergy + 100
+                    }else if(playerStats.playerEnergy > 900){
+                        playerStats.playerEnergy = 1000
+                    }
+                    
+                    if(playerStats.playerEnergy < 1000 || playerStats.playerMagic < 1000 ){
+                        document.querySelector('#pMagic').innerHTML = 'Magic Level: ' + playerStats.playerMagic
+                        document.querySelector('#pEnergy').innerHTML = 'Energy Level: ' + playerStats.playerEnergy
+                        playerStats.playerGreenTea = playerStats.playerGreenTea - 1
+                    }
+                    
                     useGreenTea = false
                     
                 }
