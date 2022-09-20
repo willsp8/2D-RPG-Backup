@@ -392,8 +392,11 @@ function animateCoffeeShop(){
 
 let use = false
 let use2 = false
+let useCoffee = true
+let useGreenTea = true
 function openMenu(){
     if(menuToggled == true){
+        
         document.querySelector('#playersHUB').style.display = 'none'
         
         document.querySelector('#playersWallet').innerHTML = '$' + playerStats.playerMoney
@@ -407,22 +410,24 @@ function openMenu(){
         // document.querySelector('#GreenTeaButton').innerHTML = 'Use: Green Tea'
        
         document.querySelectorAll('button').forEach(button => {
-            
+            useCoffee = true
+            useGreenTea = true
             button.addEventListener('click', (e) =>{
                 
                 console.log(e.currentTarget.innerHTML)
-                if(e.currentTarget.innerHTML = 'Use: Coffee' &&  playerStats.playerCoffee > 0 ){
+                if(e.currentTarget.innerHTML == 'Use: Coffee' &&  playerStats.playerCoffee > 0 && useCoffee == true){
                     console.log(e.currentTarget.innerHTML)
                     playerStats.playerHealth = playerStats.playerHealth + 25
                     playerStats.playerCoffee = playerStats.playerCoffee - 1
-                    
-                }else if(e.currentTarget.innerHTML = 'Use: Coffee'&&  playerStats.playerCoffee == 0){
+                    useCoffee = false
+                }else if(e.currentTarget.innerHTML == 'Use: Coffee'&&  playerStats.playerCoffee == 0){
                     return 
                  }
-                if(e.currentTarget.innerHTML = 'Use: Green Tea' &&  playerStats.playerGreenTea > 0){
+                if(e.currentTarget.innerHTML == 'Use: Green Tea' &&  playerStats.playerGreenTea > 0 && useGreenTea == true){
                     //console.log(e.currentTarget.innerHTML)
                     playerStats.playerHealth = playerStats.playerHealth + 25
                     playerStats.playerGreenTea = playerStats.playerGreenTea - 1
+                    useGreenTea = false
                     
                 }
             })
