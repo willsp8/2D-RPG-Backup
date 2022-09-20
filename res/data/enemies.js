@@ -21,7 +21,14 @@ const enemyRightImage2 = new Image()
 enemyRightImage2.src = './res/playerRes/enemyRight.png'
 const enemyLeftImage2 = new Image()
 enemyLeftImage2.src = './res/playerRes/enemyLeft.png'
-
+const enemyHitLeftImage2 = new Image()
+enemyHitLeftImage2.src = './res/playerRes/enemyHitLeft.png'
+const enemyHitRightImage2 = new Image()
+enemyHitRightImage2.src = './res/playerRes/enemyHitRight.png'
+const enemyDyingLeftImage2 = new Image()
+enemyDyingLeftImage2.src = './res/playerRes/enemyDyingLeft.png'
+const enemyDyingRightImage2 = new Image()
+enemyDyingRightImage2.src = './res/playerRes/enemyDyingRight.png'
 const townEnmeny3 = new Sprite({
     position: {
         x: (canvas.width / 2 - 192 / 4 / 2) - 500, 
@@ -37,7 +44,11 @@ const townEnmeny3 = new Sprite({
         up: enemyUpImage2,
         down: enemyDownImage2,
         left: enemyLeftImage2,
-        right: enemyRightImage2
+        right: enemyRightImage2,
+        hitLeft: enemyHitLeftImage2,
+        hitRight: enemyHitRightImage2,
+        dyingLeft: enemyDyingLeftImage2, 
+        dyingRight: enemyDyingRightImage2
     }
 })
 
@@ -79,7 +90,11 @@ const townEnmeny4 = new Sprite({
         up: enemyUpImage2,
         down: enemyDownImage2,
         left: enemyLeftImage2,
-        right: enemyRightImage2
+        right: enemyRightImage2,
+        hitLeft: enemyHitLeftImage2,
+        hitRight: enemyHitRightImage2, 
+        dyingLeft: enemyDyingLeftImage2,
+        dyingRight: enemyDyingRightImage2
     }
 })
 

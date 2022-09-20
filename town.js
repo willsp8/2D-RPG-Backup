@@ -248,6 +248,26 @@ const player3 = new Sprite({
     // this sets up the sprite so we can animate our player moving right, left and etc. 
 })
 
+const PlayerDyingImage = new Image()
+PlayerDyingImage.src = './res/playerRes/playerDying.png'
+const player3Dying = new Sprite({
+    position: {
+        x: (canvas.width / 2 - 192 / 4 / 2), 
+        y: (canvas.height / 2 - 68 / 2)
+    }, 
+
+    image: PlayerDyingImage, 
+    frames: {
+        max: 10,
+        hold: 6
+    },
+    
+    sprites: {
+        dying: PlayerDyingImage,
+    }
+    // this sets up the sprite so we can animate our player moving right, left and etc. 
+})
+
 const playerSwordR = new Boundary8({
     position: {
         x: (canvas.width / 2 - 192 / 4 / 2) + 50, 
@@ -487,6 +507,8 @@ let actionLockCounter1 = 0
 let actionLockCounter2 = 0
 let townEnemyDead = false
 let townEnemyDead2 = false
+let townEnemyBeforeDeath = false
+let townEnemyBeforeDeath2 = false
 let runfire = false
 let toggledFireBall = false
 let toggledFireBallD = false
@@ -541,7 +563,7 @@ function animateTown(){
     TestBoundary4.draw() 
     // StartingPoint4.draw()
     townEnmeny4.draw()
-    if(isAttacking == false && enemyIsAttacking == false){
+    if(isAttacking == false && enemyIsAttacking == false && playerStats.playerHealth > 0){
         console.log(enemyIsAttacking)
         player3.draw()
         
@@ -591,8 +613,11 @@ function animateTown(){
     shiftAllowed = true
 
     //enemy attack system
-        enemyAttackTown(player3, TestBoundary4, movingEnemy)
-        enemyAttackTown(player3, TestBoundary3, movingEnemy2)
+        if(playerStats.playerHealth > 0){
+            enemyAttackTown(player3, TestBoundary4, movingEnemy, townEnemyDead)
+            enemyAttackTown(player3, TestBoundary3, movingEnemy2, townEnemyDead2)
+        }
+        
     
 
     //enemy movement
@@ -600,15 +625,21 @@ function animateTown(){
         const angleE12 = Math.atan2(StartingPoint4.position.y - townEnmeny4.position.y, StartingPoint4.position.x - townEnmeny4.position.x )
         const angleE3 = Math.atan2(player3.position.y - townEnmeny3.position.y, player3.position.x - townEnmeny3.position.x )
         const angleE32 = Math.atan2(StartingPoint3.position.y - townEnmeny3.position.y, StartingPoint3.position.x - townEnmeny3.position.x )
+       
         movable_enemy1.forEach(move =>{
-            enemyAITown(player3, townEnmeny4, TestBoundary4, AreaBoundary4, StartingPoint4, movingEnemy, angleE1, angleE12)
+            if(townEnemyDead == false){
+                enemyAITown(player3, townEnmeny4, TestBoundary4, AreaBoundary4, StartingPoint4, movingEnemy, angleE1, angleE12, townEnemyDead)
+            }   
+            
             //enemyAITown(player3, townEnmeny3, TestBoundary3, AreaBoundary3, StartingPoint3, movingEnemy2, angleE3, angleE32)
         })
        
 
         movable_enemy2.forEach(move =>{
             
-            enemyAITown(player3, townEnmeny3, TestBoundary3, AreaBoundary3, StartingPoint3, movingEnemy2, angleE3, angleE32)
+            if(townEnemyDead2 == false){
+                enemyAITown(player3, townEnmeny3, TestBoundary3, AreaBoundary3, StartingPoint3, movingEnemy2, angleE3, angleE32, townEnemyDead2)
+            }
         })
     // players attack 
         playerAttackTown(player3, townEnmeny4, TestBoundary4, AreaBoundary4, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy, enemyStat4, 
@@ -616,39 +647,10 @@ function animateTown(){
         
         playerAttackTown(player3, townEnmeny3, TestBoundary3, AreaBoundary3, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy2, enemyStat3, playerSwordRsprite,
             playerSwordLsprite, playerSwordUpsprite, playerSwordDownsprite)
-        playerAttackSpinTown(townEnmeny3, TestBoundary3, AreaBoundary3, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy2, enemyStat3, spinMoveSprite)
-        playerAttackSpinTown( townEnmeny4, TestBoundary4, AreaBoundary4, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy, enemyStat4, spinMoveSprite)
+        playerAttackSpinTown(player3, townEnmeny3, TestBoundary3, AreaBoundary3, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy2, enemyStat3, spinMoveSprite)
+        playerAttackSpinTown(player3, townEnmeny4, TestBoundary4, AreaBoundary4, playerSwordR, playerSwordL, playerSwordD, playerSwordU, movingEnemy, enemyStat4, spinMoveSprite)
         
-        if(enemyStat4.ememyHealth <= 0 && townEnemyDead == false ){
-            playerStats.playerMoney = playerStats.playerMoney + 100
-            document.querySelector('#pWallet').innerHTML = '$' + playerStats.playerMoney
-            townEnmeny4.position.x = 7000
-            TestBoundary4.position.x = 7000
-            AreaBoundary4.position.x = 7000
-            console.log('enemy has died')
-            townEnemyDead = true
-            
-            //add money here 
-            
-        }else if(playerStats.playerHealth <= 0)
-        {   
-            console.log('player has died')
-            //window.cancelAnimationFrame(townAnimateId)
-        }
-
-        if(enemyStat3.ememyHealth <= 0 && townEnemyDead2 == false ){
-            playerStats.playerMoney = playerStats.playerMoney + 200
-            document.querySelector('#pWallet').innerHTML = '$' + playerStats.playerMoney
-            townEnmeny3.position.x = 7000
-            TestBoundary3.position.x = 7000
-            AreaBoundary3.position.x = 7000
-            console.log('enemy has died')
-            townEnemyDead2 = true
-        }else if(playerStats.playerHealth <= 0)
-        {   
-            console.log('player has died')
-           // window.cancelAnimationFrame(townAnimateId)
-        }
+        
 
         openMenu()
 
@@ -657,6 +659,62 @@ function animateTown(){
         playerFireBallAttack(player3, playerFireBall, townEnmeny4, boundaries_for_town, enemyStat4, playerStats, firemoving, vertexFireBall)
         playerFireBallAttack(player3, playerFireBall, townEnmeny3, boundaries_for_town, enemyStat3, playerStats, firemoving, vertexFireBall)
        
+        if(enemyStat4.ememyHealth <= 0 && townEnemyBeforeDeath == false){
+            if(townEnmeny4.image = townEnmeny4.sprites.left){
+                townEnmeny4.image = townEnmeny4.sprites.dyingLeft
+            }
+            if(townEnmeny4.image = townEnmeny4.sprites.right){
+                townEnmeny4.image = townEnmeny4.sprites.dyingRight
+            }
+            townEnemyDead = true
+            
+            setTimeout(() => {
+                playerStats.playerMoney = playerStats.playerMoney + 10
+                document.querySelector('#pWallet').innerHTML = '$' + playerStats.playerMoney
+                townEnmeny4.position.x = 7000
+                TestBoundary4.position.x = 7000
+                AreaBoundary4.position.x = 7000
+                console.log('enemy has died')
+                townEnemyBeforeDeath = true
+            }, 1000)
+            
+        }else if(playerStats.playerHealth <= 0)
+        {   
+            player3Dying.animate = true
+            player3Dying.update()
+            moving3 = false
+            console.log('player has died')
+            //window.cancelAnimationFrame(townAnimateId)
+        }
+
+        if(enemyStat3.ememyHealth <= 0 && townEnemyBeforeDeath2 == false){
+            if(townEnmeny3.image = townEnmeny3.sprites.left){
+                townEnmeny3.image = townEnmeny3.sprites.dyingLeft
+            }
+            if(townEnmeny3.image = townEnmeny3.sprites.right){
+                townEnmeny3.image = townEnmeny3.sprites.dyingRight
+            }
+            
+            townEnemyDead2 = true
+            setTimeout(() => {
+                playerStats.playerMoney = playerStats.playerMoney + 10
+                document.querySelector('#pWallet').innerHTML = '$' + playerStats.playerMoney
+                townEnmeny3.position.x = 7000
+                TestBoundary3.position.x = 7000
+                AreaBoundary3.position.x = 7000
+                console.log('enemy has died')
+                townEnemyBeforeDeath = true
+            }, 1000)
+        }else if(playerStats.playerHealth <= 0 )
+        {   
+            player3Dying.animate = true
+            player3Dying.update()
+            moving3 = false
+            console.log('player has died')
+           // window.cancelAnimationFrame(townAnimateId)
+        }
+
+
         ALCShift = ALCShift + 1
         if(ALCShift == 200){
             console.log(' spin is ready')
@@ -664,6 +722,7 @@ function animateTown(){
             ALCShift = 0
             
         }
+
 
     if(keys.w.pressed == true && lastKey == 'w') {
         
@@ -1242,7 +1301,7 @@ function animateTown(){
 
 
 
-function enemyAttackTown(player, testBoundary, moving){
+function enemyAttackTown(player, testBoundary, moving, enemyDead){
    
 
     if(rectangularCollision2({
@@ -1251,7 +1310,7 @@ function enemyAttackTown(player, testBoundary, moving){
         rectangle2: testBoundary,
         x: 0,
         y: 0
-    }))
+    }) && enemyDead == false)
     {
         moving = false
         
@@ -1598,7 +1657,7 @@ function throwFire(){
     //console.log(keys.f.pressed)
 }
 
-function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoint, moving, angle, angle2){
+function enemyAITown(player, enemy, testBoundary, areaBoundary, enemystartingpoint, moving, angle, angle2, enemyDead){
     ALC1 = ALC1 + 1;
 
             if(ALC1 == 50 ){
@@ -1945,11 +2004,13 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
                 x: 0,
                 y: 0
             })){       
+
+
                         if(moving == true){
-                           
+                            enemy.image = enemy.sprites.hitRight
                             enemy.position.x += 4
                             enmeySword.position.x += 4
-                           enemyArea.position.x += 4
+                            enemyArea.position.x += 4
                             enemyStat.ememyHealth = enemyStat.ememyHealth - 1
                             console.log('enemy health')
                             console.log(enemyStat.ememyHealth)   
@@ -1986,9 +2047,10 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
                 //note this then makes the the console log hit or go 4 to 5 times which should help with the rest of the stuff also create collsion for cat and boundies
                     if(moving == true){
                         
+                        enemy.image = enemy.sprites.hitRight
                         enemy.position.x -= 4
                         enmeySword.position.x -= 4
-                       enemyArea.position.x -= 4
+                        enemyArea.position.x -= 4
                         enemyStat.ememyHealth = enemyStat.ememyHealth - 1
                         console.log('enemy health')
                             console.log(enemyStat.ememyHealth)  
@@ -2022,10 +2084,15 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
             })){
                 console.log('hit up ')
                 if(moving == true){
-                    
+                    if(enemy.image = enemy.sprites.Left){
+                        enemy.image = enemy.sprites.hitLeft
+                    }
+                    if(enemy.image = enemy.sprites.right){
+                        enemy.image = enemy.sprites.hitRight
+                    }
                     enemy.position.y -= 4
                     enmeySword.position.y -= 4
-                   enemyArea.position.y -= 4
+                    enemyArea.position.y -= 4
                     enemyStat.ememyHealth = enemyStat.ememyHealth - 1
                     
                     
@@ -2058,10 +2125,15 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
                 
                 
                 if(moving == true){
-                    
+                    if(enemy.image = enemy.sprites.Left){
+                        enemy.image = enemy.sprites.hitLeft
+                    }
+                    if(enemy.image = enemy.sprites.right){
+                        enemy.image = enemy.sprites.hitRight
+                    }
                     enemy.position.y += 4
                     enmeySword.position.y += 4
-                   enemyArea.position.y += 4
+                    enemyArea.position.y += 4
                     enemyStat.ememyHealth = enemyStat.ememyHealth - 1
                     console.log('enemy health')
                             console.log(enemyStat.ememyHealth) 
@@ -2091,7 +2163,7 @@ function playerAttackTown(player, enemy, enmeySword, enemyArea, playerSwordR, pl
     }
 }
 
-function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, playerSwordL, playerSwordD, playerSwordU, moving, enemyStat, spinMoveSprite){
+function playerAttackSpinTown(player, enemy, enmeySword, enemyArea, playerSwordR, playerSwordL, playerSwordD, playerSwordU, moving, enemyStat, spinMoveSprite){
     ALCControl = ALCControl + 1
     
     //console.log(ALCControl)
@@ -2117,7 +2189,7 @@ function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, player
         playerStats.playerEnergy = playerStats.playerEnergy - 1
         document.querySelector('#pEnergy').innerHTML = 'Enegry Level: ' + playerStats.playerEnergy
             playerSwordR.draw()
-            
+            const angle = Math.atan2(enemy.position.y - player.position.y, enemy.position.x - player.position.x )
             if(rectangularCollision2({
                 rectangle1: playerSwordR,
                 //makes a clone of the boundary object 
@@ -2126,10 +2198,11 @@ function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, player
                 y: 0
             })){       
                         if(moving == true){
+                            enemy.image = enemy.sprites.hitLeft
                             console.log('right was hit ')
-                            enemy.position.x += 20
-                            enmeySword.position.x += 20
-                           enemyArea.position.x += 20
+                            enemy.position.x += angle + 20
+                            enmeySword.position.x += angle + 20
+                           enemyArea.position.x += angle + 20
                             enemyStat.ememyHealth = enemyStat.ememyHealth - 3
                             console.log('enemy health')
                             console.log(enemyStat.ememyHealth)   
@@ -2153,10 +2226,11 @@ function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, player
                 //note to self this makes the cat move towards the right away from the player like link between worlds
                 //note this then makes the the console log hit or go 4 to 5 times which should help with the rest of the stuff also create collsion for cat and boundies
                     if(moving == true){
+                        enemy.image = enemy.sprites.hitRight
                         console.log('l was hit ')
-                        enemy.position.x -= 20
-                        enmeySword.position.x -= 20
-                       enemyArea.position.x -= 20
+                        enemy.position.x -= angle + 20
+                        enmeySword.position.x -= angle + 20
+                       enemyArea.position.x -= angle + 20
                         enemyStat.ememyHealth = enemyStat.ememyHealth - 3
                         console.log('enemy health')
                             console.log(enemyStat.ememyHealth)  
@@ -2181,9 +2255,10 @@ function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, player
                 
                 if(moving == true){
                     console.log('up was hit ')
-                    enemy.position.y -= 20
-                    enmeySword.position.y -= 20
-                   enemyArea.position.y -= 20
+                    enemy.image = enemy.sprites.hitRight
+                    enemy.position.y -= angle + 20
+                    enmeySword.position.y -= angle + 20
+                   enemyArea.position.y -= angle + 20
                     enemyStat.ememyHealth = enemyStat.ememyHealth - 3
                     
                     
@@ -2207,9 +2282,10 @@ function playerAttackSpinTown(enemy, enmeySword, enemyArea, playerSwordR, player
                 if(moving == true){
                    
                     console.log('d was hit ')
-                    enemy.position.y += 20
-                    enmeySword.position.y += 20
-                   enemyArea.position.y += 20
+                    enemy.image = enemy.sprites.hitLeft
+                    enemy.position.y += angle + 20
+                    enmeySword.position.y += angle + 20
+                   enemyArea.position.y += angle + 20
                     enemyStat.ememyHealth = enemyStat.ememyHealth - 1
                     
                 }
