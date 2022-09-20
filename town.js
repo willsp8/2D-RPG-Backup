@@ -703,7 +703,7 @@ function animateTown(){
                 TestBoundary3.position.x = 7000
                 AreaBoundary3.position.x = 7000
                 console.log('enemy has died')
-                townEnemyBeforeDeath = true
+                townEnemyBeforeDeath2 = true
             }, 1000)
         }else if(playerStats.playerHealth <= 0 )
         {   
