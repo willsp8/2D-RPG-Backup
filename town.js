@@ -545,7 +545,7 @@ let runfire = false
 let toggledFireBall = false
 let toggledFireBallD = false
 let toggledFireBallR = false
-let toggledFireBallL
+let toggledFireBallL = false
 let toggledFireBallU = false
 
 let leftDone = false
@@ -1559,8 +1559,9 @@ function playerFireBallAttack(player, playerFireBall, enemy,
         }else if(player.image == player.sprites.right && leftDone == false && upDone == false && downDone == false && playerStats.playerMagic > 25 ||
                 player.image == player.sprites.idleRight && leftDone == false && upDone == false && downDone == false && playerStats.playerMagic > 25){
             
-                    toggledFireBallR = true
+            toggledFireBallR = true
             rightDone = true
+            console.log('go to go')
         }else if(player.image == player.sprites.up && upDone == false && leftDone == false && rightDone == false && downDone == false && playerStats.playerMagic > 25 ||
                 player.image == player.sprites.idleUp && upDone == false && leftDone == false && rightDone == false && downDone == false && playerStats.playerMagic > 25 ){
             
@@ -1571,7 +1572,7 @@ function playerFireBallAttack(player, playerFireBall, enemy,
             toggledFireBallD = true
             downDone = true
         }
-
+        
         if(toggledFireBallL == true && leftDone == true){
             playerStats.playerMagic = playerStats.playerMagic - 1
             document.querySelector('#pMagic').innerHTML = 'Magic Level: ' + playerStats.playerMagic
@@ -1787,6 +1788,9 @@ function playerFireBallAttack(player, playerFireBall, enemy,
         }
        
         setTimeout(() => {
+            toggledFireBallL = false
+            leftDone = false
+            
             toggledFireBallR = false
             rightDone = false
 
