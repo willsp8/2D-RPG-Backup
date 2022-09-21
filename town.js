@@ -22,7 +22,7 @@ function changeOffSet(x1, y1){
 console.log(townEnmeny3)
 const townBackgroundImage = new Image()
 //houseBackgroundImage.src = './res/battleBackground.png'
-townBackgroundImage.src = './res/maps/ice_town_map.png'
+townBackgroundImage.src = './res/maps/ice_town_map_final.png'
 // player
 const playerDownImage3 = new Image()
 playerDownImage3.src = './res/playerRes/CDown2.png'
@@ -862,8 +862,38 @@ function animateTown(){
             ){
                
                 window.cancelAnimationFrame(townAnimateId)
-                animateLibrary()
+                
                 moving3 = false
+                gsap.to('#overlappingDiv', {
+                    opacity: 1,
+                    // this will repeat the opacity 3 times
+                    repeat: 1,
+                    // can this make the flashing smooth
+                    yoyo: true,
+                    duration: 0.4,
+                    // this makes sure to that it ends on a black screen
+                    onComplete(){
+                        gsap.to('#overlappingDiv',{
+                            opacity: 1, 
+                            duration: 0.4,
+                            onComplete(){
+                                // this will run the animate battle function and the code below is needed
+                                animateLibrary()
+                                
+                                gsap.to('#overlappingDiv',{
+                                    // make sure that this is 0 in order to see battle image after flashing 
+                                    opacity: 0, 
+                                    duration: 0.4  
+                                })
+                                
+                            }
+                        })
+                        
+                        
+                    }
+                    
+                
+                })
                 break
             }
         }
@@ -888,8 +918,38 @@ function animateTown(){
                 })
             ){
                 window.cancelAnimationFrame(townAnimateId)
-                animateCoffeeShop()
+                
                 moving3 = false
+                gsap.to('#overlappingDiv', {
+                    opacity: 1,
+                    // this will repeat the opacity 3 times
+                    repeat: 1,
+                    // can this make the flashing smooth
+                    yoyo: true,
+                    duration: 0.4,
+                    // this makes sure to that it ends on a black screen
+                    onComplete(){
+                        gsap.to('#overlappingDiv',{
+                            opacity: 1, 
+                            duration: 0.4,
+                            onComplete(){
+                                // this will run the animate battle function and the code below is needed
+                                animateCoffeeShop()
+                                
+                                gsap.to('#overlappingDiv',{
+                                    // make sure that this is 0 in order to see battle image after flashing 
+                                    opacity: 0, 
+                                    duration: 0.4  
+                                })
+                                
+                            }
+                        })
+                        
+                        
+                    }
+                    
+                
+                })
                 break
             }
         }
@@ -911,8 +971,38 @@ function animateTown(){
                 })
             ){
                 window.cancelAnimationFrame(townAnimateId)
-                animatehouse()
                 moving3 = false
+                gsap.to('#overlappingDiv', {
+                    opacity: 1,
+                    // this will repeat the opacity 3 times
+                    repeat: 1,
+                    // can this make the flashing smooth
+                    yoyo: true,
+                    duration: 0.4,
+                    // this makes sure to that it ends on a black screen
+                    onComplete(){
+                        gsap.to('#overlappingDiv',{
+                            opacity: 1, 
+                            duration: 0.4,
+                            onComplete(){
+                                // this will run the animate battle function and the code below is needed
+                                animatehouse()
+                                
+                                gsap.to('#overlappingDiv',{
+                                    // make sure that this is 0 in order to see battle image after flashing 
+                                    opacity: 0, 
+                                    duration: 0.4  
+                                })
+                                
+                            }
+                        })
+                        
+                        
+                    }
+                    
+                
+                })
+                
                 break
             }
         }
@@ -1460,18 +1550,24 @@ function playerFireBallAttack(player, playerFireBall, enemy,
     if(keys.f.pressed == true ){
         //playerFireBall.position.y = player.position.y
         //playerFireBall.position.x = player.position.x  
-        if(player.image == player.sprites.left && rightDone == false && upDone == false && downDone == false && playerStats.playerMagic > 25) {
+        if(player.image == player.sprites.left && rightDone == false && upDone == false && downDone == false && playerStats.playerMagic > 25 ||
+            player.image == player.sprites.idleLeft && rightDone == false && upDone == false && downDone == false && playerStats.playerMagic > 25) {
             toggledFireBallL = true
             leftDone = true
             //console.log('go to go')
             
-        }else if(player.image == player.sprites.right && leftDone == false && upDone == false && downDone == false && playerStats.playerMagic > 25){
-            toggledFireBallR = true
+        }else if(player.image == player.sprites.right && leftDone == false && upDone == false && downDone == false && playerStats.playerMagic > 25 ||
+                player.image == player.sprites.idleRight && leftDone == false && upDone == false && downDone == false && playerStats.playerMagic > 25){
+            
+                    toggledFireBallR = true
             rightDone = true
-        }else if(player.image == player.sprites.up && upDone == false && leftDone == false && rightDone == false && downDone == false && playerStats.playerMagic > 25 ){
+        }else if(player.image == player.sprites.up && upDone == false && leftDone == false && rightDone == false && downDone == false && playerStats.playerMagic > 25 ||
+                player.image == player.sprites.idleUp && upDone == false && leftDone == false && rightDone == false && downDone == false && playerStats.playerMagic > 25 ){
+            
             toggledFireBallU = true
             upDone = true
-        }else if(player.image == player.sprites.down && downDone == false && leftDone == false && rightDone == false && playerStats.playerMagic > 25){
+        }else if(player.image == player.sprites.down && downDone == false && leftDone == false && rightDone == false && playerStats.playerMagic > 25 ||
+            player.image == player.sprites.idleDown && downDone == false && leftDone == false && rightDone == false && playerStats.playerMagic > 25 ){
             toggledFireBallD = true
             downDone = true
         }

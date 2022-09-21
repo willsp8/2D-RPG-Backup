@@ -4,7 +4,8 @@ let playerStats = {
     playerEnergy: 1000,
     playerMoney: 400,
     playerCoffee: 1,
-    playerGreenTea: 2
+    playerGreenTea: 2,
+    catTreats: 2
 }
 
 

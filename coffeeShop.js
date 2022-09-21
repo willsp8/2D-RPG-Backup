@@ -15,6 +15,14 @@ const playerRightImage4 = new Image()
 playerRightImage4.src = './res/playerRes/CRight2.png'
 const playerLeftImage4 = new Image()
 playerLeftImage4.src = './res/playerRes/CLeft2.png'
+const playerIdleDownImage4 = new Image()
+playerIdleDownImage4.src = './res/playerRes/CIdle.png'
+const playerIdleUpImage4 = new Image()
+playerIdleUpImage4.src = './res/playerRes/CIdleUp.png'
+const playerIdleLeftImage4= new Image()
+playerIdleLeftImage4.src = './res/playerRes/playerIdleLeft.png'
+const playerIdleRightImage4 = new Image()
+playerIdleRightImage4.src = './res/playerRes/playerIdleRight.png'
 
 const collisionMapCoffeeShop = [] 
 for (let i = 0; i < collision_for_coffee_shop.length; i+= 90){ 
@@ -74,7 +82,7 @@ const player4 = new Sprite({
         y: (canvas.height / 2 - 68 / 2)
     }, 
 
-    image: playerDownImage4, 
+    image: playerIdleDownImage4, 
     frames: {
         max: 6,
         hold: 9
@@ -84,7 +92,11 @@ const player4 = new Sprite({
         up: playerUpImage4,
         down: playerDownImage4,
         left: playerLeftImage4,
-        right: playerRightImage4
+        right: playerRightImage4,
+        idleDown: playerIdleDownImage4,
+        idleUp: playerIdleUpImage4,
+        idleRight: playerIdleRightImage4,
+        idleLeft: playerIdleLeftImage4
     }
     // this sets up the sprite so we can animate our player moving right, left and etc. 
 })
@@ -138,11 +150,39 @@ function animateCoffeeShop(){
     barista.draw()
     baristaBoundary.draw()
     barista.animate = true
-    player4.drawAI()
+    // player4.drawAI()
     let moving4 = true
     player4.animate = false
-    
-    
+    if(keys.w.pressed == false && keys.a.pressed == false &&
+        keys.s.pressed == false && keys.d.pressed == false
+        )
+    {
+            if(player4.image ==  player4.sprites.down && enemyIsAttacking == false){
+                player4.image = player4.sprites.idleDown
+            }else if(player4.image ==  player4.sprites.up){
+                player4.image = player4.sprites.idleUp
+            }else if(player4.image ==  player4.sprites.right){
+                player4.image = player4.sprites.idleRight
+            }else if(player4.image ==  player4.sprites.left){
+                player4.image = player4.sprites.idleLeft
+            }
+            player4.animate = true
+            player4.draw()
+    }else{
+        player4.animate = true
+        player4.draw()
+    }
+
+
+    // makes sure that the layer doesnt attack when player leave the coffee house
+    if(keys.space.pressed){
+        keys.space.pressed = false
+    }
+
+    document.querySelector('#pWalletTalkingDiv').style.display = 'none' 
+    document.querySelector('#pStatsTalkingDiv').style.display = 'none'
+    document.querySelector('#pWalletDiv').style.display = 'block'
+    document.querySelector('#pStatsDiv').style.display = 'block'
     if(rectangularCollision2({
         rectangle1: baristaBoundary,
         //makes a clone of the boundary object 
@@ -154,7 +194,11 @@ function animateCoffeeShop(){
        if(dialogueToggled == true){
         console.log('args')
         moving4 = false
+        document.querySelector('#pWalletDiv').style.display = 'None'
+        document.querySelector('#pStatsDiv').style.display = 'None'
         document.querySelector('#baristaInterface').style.display = 'block'
+        document.querySelector('#pWalletTalkingDiv').style.display = 'block' 
+            document.querySelector('#pStatsTalkingDiv').style.display = 'block'
         document.querySelectorAll('button').forEach((button) => {
             buy1 = true
             button.addEventListener('click', (e) =>{
@@ -170,7 +214,9 @@ function animateCoffeeShop(){
                     document.querySelector('#dialogueBoxForBarista').style.display = 'block'
                     document.querySelector('#dialogueBoxForBarista').innerHTML = 'One Coffee'
                     document.querySelector('#pWallet').innerHTML = '$' + playerStats.playerMoney
+                    document.querySelector('#pWalletTalking').innerHTML = '$' + playerStats.playerMoney
                     document.querySelector('#pCoffee').innerHTML = 'Coffee: ' + playerStats.playerCoffee
+                    document.querySelector('#pCoffeeTalking').innerHTML = 'Coffee: ' + playerStats.playerCoffee
                     document.querySelector('#dialogueBoxForBarista').addEventListener('click', (e) => {
                         e.currentTarget.style.display = 'none'
                         
@@ -186,6 +232,8 @@ function animateCoffeeShop(){
                     document.querySelector('#dialogueBoxForBarista').innerHTML = 'One Green Tea'
                     document.querySelector('#pWallet').innerHTML = '$' + playerStats.playerMoney
                     document.querySelector('#pGreenTea').innerHTML = 'Green Tea: ' + playerStats.playerGreenTea
+                    document.querySelector('#pWalletTalking').innerHTML = '$' + playerStats.playerMoney
+                    document.querySelector('#pGreenTeaTalking').innerHTML = 'Green Tea: ' + playerStats.playerGreenTea
                     document.querySelector('#dialogueBoxForBarista').addEventListener('click', (e) => {
                         e.currentTarget.style.display = 'none'
                     })
@@ -302,8 +350,38 @@ function animateCoffeeShop(){
                 })
             ){
                 window.cancelAnimationFrame(coffeeShopAnimateId)
-                animateTown()
                 moving4 = false
+                gsap.to('#overlappingDiv', {
+                    opacity: 1,
+                    // this will repeat the opacity 3 times
+                    repeat: 1,
+                    // can this make the flashing smooth
+                    yoyo: true,
+                    duration: 0.4,
+                    // this makes sure to that it ends on a black screen
+                    onComplete(){
+                        gsap.to('#overlappingDiv',{
+                            opacity: 1, 
+                            duration: 0.4,
+                            onComplete(){
+                                // this will run the animate battle function and the code below is needed
+                                animateTown()
+                                
+                                gsap.to('#overlappingDiv',{
+                                    // make sure that this is 0 in order to see battle image after flashing 
+                                    opacity: 0, 
+                                    duration: 0.4  
+                                })
+                                
+                            }
+                        })
+                        
+                        
+                    }
+                    
+                
+                })
+                
                 break
             }
         }

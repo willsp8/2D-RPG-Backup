@@ -50,6 +50,14 @@ const playerRightImage2 = new Image()
 playerRightImage2.src = './res/playerRes/CRight2.png'
 const playerLeftImage2 = new Image()
 playerLeftImage2.src = './res/playerRes/CLeft2.png'
+const playerIdleDownImage2 = new Image()
+playerIdleDownImage2.src = './res/playerRes/CIdle.png'
+const playerIdleUpImage2 = new Image()
+playerIdleUpImage2.src = './res/playerRes/CIdleUp.png'
+const playerIdleLeftImage2 = new Image()
+playerIdleLeftImage2.src = './res/playerRes/playerIdleLeft.png'
+const playerIdleRightImage2 = new Image()
+playerIdleRightImage2.src = './res/playerRes/playerIdleRight.png'
 
 // cat 
 const catUpImage = new Image()
@@ -142,14 +150,18 @@ const player2 = new Sprite({
 
     image: playerDownImage2, 
     frames: {
-        max: 3,
-        hold: 16
+        max: 6,
+        hold: 9
     },
     sprites: {
         up: playerUpImage2,
         down: playerDownImage2,
         left: playerLeftImage2,
-        right: playerRightImage2
+        right: playerRightImage2, 
+        idleDown: playerIdleDownImage2,
+        idleUp: playerIdleUpImage2,
+        idleRight: playerIdleRightImage2,
+        idleLeft: playerIdleLeftImage2
     }
     // this sets up the sprite so we can animate our player moving right, left and etc. 
 })
@@ -169,7 +181,8 @@ const cat = new Sprite({
         up: catUpImage,
         down: catDownImage,
         left: catLeftImage,
-        right: catRightImage
+        right: catRightImage,
+        idelLeft: catIdleImage
     }
     // this sets up the sprite so we can animate our player moving right, left and etc. 
 })
@@ -232,6 +245,13 @@ const cat2 = new Sprite({
     // this sets up the sprite so we can animate our player moving right, left and etc. 
 })
 
+const dialogueCat = new Boundary6({
+    position: {
+        x: (canvas.width / 2 - 192 / 4 / 2) + 700, 
+        y: (canvas.height / 2 - 68 / 2) + 100
+    }
+})
+
 
 
 let actionLockCounterCat_1 = 0
@@ -247,8 +267,8 @@ let ALC8_8 = 0
 let ALC9_9 = 0
 let ALC1_10 = 0
 
-const movables_house = [catStartingPoint, catAreaBoundary, catTestBoundary2, catTestBoundary3, catTestBoundary4, catTestBoundary5, cat2, cat, houseBackground, ...boundaries_for_house, testBoundary, ...boundaries_for_leaving_House]
-const movable_cat = [catStartingPoint, catAreaBoundary, catTestBoundary2, catTestBoundary3, catTestBoundary4, catTestBoundary5, cat2, cat]
+const movables_house = [dialogueCat, catStartingPoint, catAreaBoundary, catTestBoundary2, catTestBoundary3, catTestBoundary4, catTestBoundary5, cat2, cat, houseBackground, ...boundaries_for_house, testBoundary, ...boundaries_for_leaving_House]
+const movable_cat = [dialogueCat, catStartingPoint, catAreaBoundary, catTestBoundary2, catTestBoundary3, catTestBoundary4, catTestBoundary5, cat2, cat]
 function rectangularCollisionHouse({rectangle1, rectangle2}){
     //if the right side of the player is greater than the left side of the red block than they are colliding 
     
@@ -260,7 +280,122 @@ function rectangularCollisionHouse({rectangle1, rectangle2}){
     
 }
 
-function animatehouse(fps){
+function catAndPlayerCollision(){
+    if(rectangularCollision2({
+        rectangle1: player2,
+        //makes a clone of the boundary object 
+        rectangle2: cat,
+        x: 70,
+        y: 0
+    })
+    ||
+    rectangularCollision2({
+        rectangle1: player2,
+        //makes a clone of the boundary object 
+        rectangle2: cat,
+        x: -70,
+        y: 0
+    })
+    ||
+    rectangularCollision2({
+        rectangle1: player2,
+        //makes a clone of the boundary object 
+        rectangle2: cat,
+        x: 0,
+        y: -70
+    })
+    ||
+    rectangularCollision2({
+        rectangle1: player2,
+        //makes a clone of the boundary object 
+        rectangle2: cat,
+        x: 0,
+        y: 70
+    })
+    ){
+        return true
+    }else{
+        return false
+    }
+}
+
+function catAndPlayerCollision2(){
+    if(rectangularCollision2({
+        rectangle1: player2,
+        //makes a clone of the boundary object 
+        rectangle2: cat,
+        x: 30,
+        y: 0
+    })
+    ||
+    rectangularCollision2({
+        rectangle1: player2,
+        //makes a clone of the boundary object 
+        rectangle2: cat,
+        x: -30,
+        y: 0
+    })
+    ||
+    rectangularCollision2({
+        rectangle1: player2,
+        //makes a clone of the boundary object 
+        rectangle2: cat,
+        x: 0,
+        y: -30
+    })
+    ||
+    rectangularCollision2({
+        rectangle1: player2,
+        //makes a clone of the boundary object 
+        rectangle2: cat,
+        x: 0,
+        y: 30
+    })
+    ){
+        return true
+    }else{
+        return false
+    }
+}
+function catAndPlayerCollision3(){
+    if(rectangularCollision2({
+        rectangle1: player2,
+        //makes a clone of the boundary object 
+        rectangle2: cat,
+        x: 5,
+        y: 0
+    })
+    ||
+    rectangularCollision2({
+        rectangle1: player2,
+        //makes a clone of the boundary object 
+        rectangle2: cat,
+        x: -5,
+        y: 0
+    })
+    ||
+    rectangularCollision2({
+        rectangle1: player2,
+        //makes a clone of the boundary object 
+        rectangle2: cat,
+        x: 0,
+        y: -5
+    })
+    ||
+    rectangularCollision2({
+        rectangle1: player2,
+        //makes a clone of the boundary object 
+        rectangle2: cat,
+        x: 0,
+        y: 5
+    })
+    ){
+        return true
+    }else{
+        return false
+    }
+}
+function animatehouse(){
     //console.log('house')
     // code i put in to make sure that the interface is turned off when starting the game 
     document.querySelector('#userInterface').style.display = 'none'
@@ -271,17 +406,23 @@ function animatehouse(fps){
     document.querySelector('#officeNPCInterface').style.display = 'none'
     document.querySelector('#catNPCInterface').style.display = 'none'
     document.querySelector('#ComputerInterface').style.display = 'none'
-    
+    document.querySelector('#pWalletDiv').style.display = 'block'
+    document.querySelector('#pStatsDiv').style.display = 'block'
+    document.querySelector('#pWalletTalkingDiv').style.display = 'none' 
+    document.querySelector('#pStatsTalkingDiv').style.display = 'none'
     const houseAnimateId = window.requestAnimationFrame(animatehouse)
-    console.log(houseAnimateId)
+    //console.log(houseAnimateId)
     houseBackground.draw()
     testBoundary.draw()
     catAreaBoundary.draw()
     catStartingPoint.draw()
+    
     cat.drawAI()
     cat2.drawAI()
+    
     let moving2 = true
     let movingCat2 = true
+    player2.animate = false
     boundaries_for_house.forEach((boundary) => {
         boundary.draw()
     })
@@ -291,8 +432,38 @@ function animatehouse(fps){
         boundary1.draw()
     })
 
+    if(keys.w.pressed == false && keys.a.pressed == false &&
+        keys.s.pressed == false && keys.d.pressed == false
+        )
+    {
+            if(player2.image ==  player2.sprites.down && enemyIsAttacking == false){
+                player2.image = player2.sprites.idleDown
+            }else if(player2.image ==  player2.sprites.up){
+                player2.image = player2.sprites.idleUp
+            }else if(player2.image ==  player2.sprites.right){
+                player2.image = player2.sprites.idleRight
+            }else if(player2.image ==  player2.sprites.left){
+                player2.image = player2.sprites.idleLeft
+            }
+            player2.animate = true
+            player2.draw()
+    }else{
+        player2.animate = true
+        player2.draw()
+    }
+
+    openMenu()
+    // makes sure that the layer doesnt attack when player leave the coffee house
+    if(keys.space.pressed){
+        keys.space.pressed = false
+    }
+
+    // makes sure that the player doesn't throw a fireball
+    if(keys.f.pressed){
+        keys.f.pressed = false
+    }
+
     // for computer
-    
     if(rectangularCollision2({
         rectangle1: player2,
         //makes a clone of the boundary object 
@@ -302,7 +473,7 @@ function animatehouse(fps){
     })){
         if(keys.e.pressed == true){
             document.querySelector('#ComputerInterface').style.display = 'block' 
-            moving2 = false
+            //moving2 = false
             
         }else{
             document.querySelector('#ComputerInterface').style.display = 'none' 
@@ -312,388 +483,154 @@ function animatehouse(fps){
     }
     
     
-    player2.drawAI()
     catTestBoundary2.draw()
-    player2.animate = false
-    
-    
+   console.log(dialogueToggled )
     movable_cat.forEach(movable => {
         actionLockCounterCat_1 = actionLockCounterCat_1 + 1
-        if(actionLockCounterCat_1 == 50){
+        if(actionLockCounterCat_1 == 70){
             if(actionLockCounterCat_12 <= 9)
             {
-                if(rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: 30,
-                    y: 0
-                })
-                ||
-                rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: -70,
-                    y: 0
-                })
-                ||
-                rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: 0,
-                    y: -30
-                })
-                ||
-                rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: 0,
-                    y: 30
-                })
-                )
-                {
-                    if(rectangularCollision2({
-                        rectangle1: player2,
-                        //makes a clone of the boundary object 
-                        rectangle2: cat,
-                        x: 3,
-                        y: 0
-                    })
-                    ||
-                    rectangularCollision2({
-                        rectangle1: player2,
-                        //makes a clone of the boundary object 
-                        rectangle2: cat,
-                        x: -3,
-                        y: 0
-                    })
-                    ||
-                    rectangularCollision2({
-                        rectangle1: player2,
-                        //makes a clone of the boundary object 
-                        rectangle2: cat,
-                        x: 0,
-                        y: -3
-                    })
-                    ||
-                    rectangularCollision2({
-                        rectangle1: player2,
-                        //makes a clone of the boundary object 
-                        rectangle2: cat,
-                        x: 0,
-                        y: 3
-                    }))
-                    {
-                        if(keys.e.pressed == true){
-                            document.querySelector('#catNPCInterface').style.display = 'block' 
-                            console.log('we jusst want')
-                        }else{
-                            document.querySelector('#catNPCInterface').style.display = 'none' 
-                        }
-                    }else{
-                        document.querySelector('#catNPCInterface').style.display = 'none' 
-                    }
-                }else if(rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: 30,
-                    y: 0
-                }) == false
-                ||
-                rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: -70,
-                    y: 0
-                }) == false
-                ||
-                rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: 0,
-                    y: -30
-                }) == false
-                ||
-                rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: 0,
-                    y: 30
-                }) == false
+                if(catAndPlayerCollision2() == false
                 ){
                     cat.animate = true
                     cat.image = cat.sprites.right
                     cat.animate = true
-                    cat.position.x += 12
+                    cat.position.x += 10
                     actionLockCounterCat_12 = actionLockCounterCat_12 + 1
                 }
                 
             }else if(actionLockCounterCat_12 > 9 && actionLockCounterCat_12 <= 19){
-                if(rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: 30,
-                    y: 0
-                }))
-                {
-                    if(rectangularCollision2({
-                        rectangle1: player2,
-                        //makes a clone of the boundary object 
-                        rectangle2: cat,
-                        x: 3,
-                        y: 0
-                    })
-                    ||
-                    rectangularCollision2({
-                        rectangle1: player2,
-                        //makes a clone of the boundary object 
-                        rectangle2: cat,
-                        x: -3,
-                        y: 0
-                    })
-                    ||
-                    rectangularCollision2({
-                        rectangle1: player2,
-                        //makes a clone of the boundary object 
-                        rectangle2: cat,
-                        x: 0,
-                        y: -3
-                    })
-                    ||
-                    rectangularCollision2({
-                        rectangle1: player2,
-                        //makes a clone of the boundary object 
-                        rectangle2: cat,
-                        x: 0,
-                        y: 3
-                    }))
-                    {
-                        if(keys.e.pressed == true){
-                            document.querySelector('#catNPCInterface').style.display = 'block' 
-                            console.log('we jusst want')
-                        }else{
-                            document.querySelector('#catNPCInterface').style.display = 'none' 
-                        }
-                    }else{
-                        document.querySelector('#catNPCInterface').style.display = 'none' 
-                    }
-                }else if(rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: -30,
-                    y: 0
-                }) == false){
+                if(catAndPlayerCollision2() == false){
+                    
+                    cat.animate = true
+                    cat.image = cat.sprites.idelLeft
+                    cat.animate = true
+                    
+                    actionLockCounterCat_12 = actionLockCounterCat_12 + 1
+                }
+            }else if(actionLockCounterCat_12 > 19 && actionLockCounterCat_12 <= 29){
+                if(catAndPlayerCollision2() == false){
+                    
+                    cat.animate = true
+                    cat.image = cat.sprites.up
+                    cat.animate = true
+                    cat.position.y -= 10
+                    actionLockCounterCat_12 = actionLockCounterCat_12 + 1
+                }
+            }else if(actionLockCounterCat_12 > 29 && actionLockCounterCat_12 <= 39){
+                if(catAndPlayerCollision2() == false){
+                    
+                    cat.animate = true
+                    cat.image = cat.sprites.idelLeft
+                    cat.animate = true
+
+                    actionLockCounterCat_12 = actionLockCounterCat_12 + 1
+                }
+            }else if(actionLockCounterCat_12 > 39 && actionLockCounterCat_12 <= 49){
+                if(catAndPlayerCollision2() == false){
                     
                     cat.animate = true
                     cat.image = cat.sprites.left
                     cat.animate = true
-                    cat.position.x -= 12
+                    cat.position.x -= 10
+                    //cat.position.y += 10
+                    actionLockCounterCat_12 = actionLockCounterCat_12 + 1
+                }
+            }else if(actionLockCounterCat_12 > 49 && actionLockCounterCat_12 <= 59){
+                if(catAndPlayerCollision2() == false){
+                    
+                    cat.animate = true
+                    cat.image = cat.sprites.idelLeft
+                    cat.animate = true
+                    
+                    //cat.position.y += 10
+                    actionLockCounterCat_12 = actionLockCounterCat_12 + 1
+                }
+            }else if(actionLockCounterCat_12 > 59 && actionLockCounterCat_12 <= 69){
+                if(catAndPlayerCollision2() == false){
+                    
+                    cat.animate = true
+                    cat.image = cat.sprites.down
+                    cat.animate = true
+                    
+                    cat.position.y += 10
                     actionLockCounterCat_12 = actionLockCounterCat_12 + 1
                 }
             }else{
-                if(rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: 30,
-                    y: 0
-                }) == false
-                ||
-                rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: -70,
-                    y: 0
-                }) == false
-                ||
-                rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: 0,
-                    y: -30
-                }) == false
-                ||
-                rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: 0,
-                    y: 30
-                }) == false){
+                if(catAndPlayerCollision2() == false){
                     actionLockCounterCat_12 = 0 
-                }
-                if(rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: 3,
-                    y: 0
-                })
-                ||
-                rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: -3,
-                    y: 0
-                })
-                ||
-                rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: 0,
-                    y: -3
-                })
-                ||
-                rectangularCollision2({
-                    rectangle1: player2,
-                    //makes a clone of the boundary object 
-                    rectangle2: cat,
-                    x: 0,
-                    y: 3
-                }))
-                {
-                    if(keys.e.pressed == true){
-                        document.querySelector('#catNPCInterface').style.display = 'block' 
-                        console.log('we jusst want')
-                    }else{
-                        document.querySelector('#catNPCInterface').style.display = 'none' 
-                    }
-                }else{
-                    document.querySelector('#catNPCInterface').style.display = 'none' 
                 }
                 
             }
             actionLockCounterCat_1 = 0 
+        }else if (catAndPlayerCollision3() && dialogueToggled == true){
+            moving2 = false
+            console.log(playerStats.catTreats)
+            document.querySelector('#pWalletTalkingDiv').style.display = 'block' 
+            document.querySelector('#pStatsTalkingDiv').style.display = 'block' 
+            document.querySelector('#catNPCInterface').style.display = 'block' 
+            document.querySelector('#pWalletDiv').style.display = 'None'
+            document.querySelector('#pStatsDiv').style.display = 'None'
+            
+            document.querySelectorAll('button').forEach((button) => {
+                useCatTreat = true
+                button.addEventListener('click', (e) =>{ 
+                    
+                    if(e.currentTarget.innerHTML == 'Feed Cat' && playerStats.catTreats > 0 && useCatTreat == true){
+                        playerStats.playerHealth = 100
+                        playerStats.catTreats = playerStats.catTreats - 1
+                        
+                        document.querySelector('#dialogueBoxForCat').style.display = 'block'
+                        document.querySelector('#dialogueBoxForCat').innerHTML = 'Cat Liked the Treats. your health has been restore'
+                    
+                        document.querySelector('#dialogueBoxForCat').addEventListener('click', (e) => {
+                            e.currentTarget.style.display = 'none'
+                            
+                        })
+                        useCatTreat = false
+                    }else if(e.currentTarget.innerHTML == 'Feed Cat' && playerStats.catTreats <= 0 ){
+                        
+                        document.querySelector('#dialogueBoxForCat').style.display = 'block'
+                        document.querySelector('#dialogueBoxForCat').innerHTML = 'You are out of Cat treats'
+                        
+                        document.querySelector('#dialogueBoxForCat').addEventListener('click', (e) => {
+                            e.currentTarget.style.display = 'none'
+                            useCatTreat = false
+                        })
+                        
+                    }else if(e.currentTarget.innerHTML == 'Pet Cat'){
+                        if(playerStats.playerMagic <= 900){
+                            playerStats.playerMagic = playerStats.playerMagic + 100
+                        }else if (playerStats.playerMagic > 900){
+                            playerStats.playerMagic = 1000
+                        }
+    
+                        if(playerStats.playerEnergy <= 900){
+                            playerStats.playerEnergy = playerStats.playerEnergy + 100
+                        }else if(playerStats.playerEnergy > 900){
+                            playerStats.playerEnergy = 1000
+                        }
+                        
+                        if(playerStats.playerEnergy < 1000 || playerStats.playerMagic < 1000 ){
+                            document.querySelector('#pMagic').innerHTML = 'Magic Level: ' + playerStats.playerMagic
+                            document.querySelector('#pEnergy').innerHTML = 'Energy Level: ' + playerStats.playerEnergy
+                            playerStats.playerGreenTea = playerStats.playerGreenTea - 1
+                        }
+
+                        document.querySelector('#dialogueBoxForCat').style.display = 'block'
+                        document.querySelector('#dialogueBoxForCat').innerHTML = 'You Feel Better'
+                        
+                        document.querySelector('#dialogueBoxForCat').addEventListener('click', (e) => {
+                            e.currentTarget.style.display = 'none'
+                            useCatTreat = false
+                        })
+                    }
+                }) 
+            })
         }
 
     })
-
-    // collision between boundaries and cat2
-        // for (let i = 0; i < boundaries_for_house.length; i++){
-        //     const boundary = boundaries_for_house[i]
-        //     if(
-        //         rectangularCollisionHouse({
-        //             rectangle1: cat2,
-        //             //makes a clone of the boundary object 
-        //             rectangle2: {
-        //                 ...boundary, 
-        //                 position: {
-        //                     x: boundary.position.x + 3,
-        //                     y: boundary.position.y
-        //                 }
-        //             }
-        //         })
-        //     ){
-        //         console.log('dont move cat')
-        //         movingCat2 = false
-        //         //cat2.position.x -= 4
-        //         break
-        //     }
-
-        //     if(
-        //         rectangularCollisionHouse({
-        //             rectangle1: cat2,
-        //             //makes a clone of the boundary object 
-        //             rectangle2: {
-        //                 ...boundary, 
-        //                 position: {
-        //                     x: boundary.position.x - 3,
-        //                     y: boundary.position.y
-        //                 }
-        //             }
-        //         })
-        //     ){
-            
-        //         movingCat2 = false
-        //         //cat2.position.x += 4
-        //         console.log('dont move cat ')
-        //         break
-        //     }
-        //     if(
-        //         rectangularCollisionHouse({
-        //             rectangle1: cat2,
-        //             //makes a clone of the boundary object 
-        //             rectangle2: {
-        //                 ...boundary, 
-        //                 position: {
-        //                     x: boundary.position.x,
-        //                     y: boundary.position.y - 3
-        //                 }
-        //             }
-        //         })
-        //     ){
-            
-        //         movingCat2 = false
-        //         //cat2.position.y += 4
-        //         console.log('dont move cat')
-        //         break
-        //     }
-        //     if(
-        //         rectangularCollisionHouse({
-        //             rectangle1: cat2,
-        //             //makes a clone of the boundary object 
-        //             rectangle2: {
-        //                 ...boundary, 
-        //                 position: {
-        //                     x: boundary.position.x ,
-        //                     y: boundary.position.y + 3
-        //                 }
-        //             }
-        //         })
-        //     ){
-            
-        //         movingCat2 = false
-        //         //cat2.position.y -= 4
-        //         console.log('dont move cat')
-        //         break
-        //     }
-            
-        // }
     
-    
-    // collision between enemies weapon and player feature
-        enemyAttack(player2, catTestBoundary2, movingCat2)
-        
-
-    //cat2 movement feature
-        const angle = Math.atan2(player2.position.y - cat2.position.y, player2.position.x - cat2.position.x )
-        const angle2 = Math.atan2(catStartingPoint.position.y - cat2.position.y, catStartingPoint.position.x - cat2.position.x )
-        movable_cat.forEach(move =>{
-            enemyAI(player2, cat2, catTestBoundary2, catAreaBoundary, catStartingPoint, movingCat2, angle, angle2)
-        })
-        
-    
-    // player attack to enemy feature
-    playerAttack(player2, cat2, catTestBoundary2, catAreaBoundary, testBoundary, movingCat2)
-       
-
-    
-        
-    // health for enemy and player feature   
-        if(enemyStats.ememyHealth <= 0 && cat2.position.x != 1200 ){
-            cat2.position.x = 1200
-            catTestBoundary2.position.x = 1200
-            catAreaBoundary.position.x = 1200
-            console.log('enemy has died')
-            
-        }else if(playerStats.playerHealth <= 0)
-        {   
-            console.log('player has died')
-        }
-
     
 
     if(keys.w.pressed == true && lastKey == 'w') {

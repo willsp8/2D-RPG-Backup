@@ -20,6 +20,14 @@ const playerRightImage5 = new Image()
 playerRightImage5.src = './res/playerRes/CRight2.png'
 const playerLeftImage5 = new Image()
 playerLeftImage5.src = './res/playerRes/CLeft2.png'
+const playerIdleDownImage5 = new Image()
+playerIdleDownImage5.src = './res/playerRes/CIdle.png'
+const playerIdleUpImage5 = new Image()
+playerIdleUpImage5.src = './res/playerRes/CIdleUp.png'
+const playerIdleLeftImage5 = new Image()
+playerIdleLeftImage5.src = './res/playerRes/playerIdleLeft.png'
+const playerIdleRightImage5 = new Image()
+playerIdleRightImage5.src = './res/playerRes/playerIdleRight.png'
 
 // office npc
 const officeGuyDown = new Image()
@@ -168,16 +176,20 @@ const player5 = new Sprite({
         y: (canvas.height / 2 - 68 / 2)
     }, 
 
-    image: playerDownImage4, 
+    image: playerIdleDownImage5, 
     frames: {
-        max: 3,
-        hold: 10
+        max: 6,
+        hold: 9
     },
     sprites: {
         up: playerUpImage5,
         down: playerDownImage5,
         left: playerLeftImage5,
-        right: playerRightImage5
+        right: playerRightImage5, 
+        idleDown: playerIdleDownImage5,
+        idleUp: playerIdleUpImage5,
+        idleRight: playerIdleRightImage5,
+        idleLeft: playerIdleLeftImage5
     }
     // this sets up the sprite so we can animate our player moving right, left and etc. 
 })
@@ -265,7 +277,6 @@ function animateLibrary(){
     librainanBoundaries.forEach((boundary1) => {
         boundary1.draw()
     })
-    player5.draw()
     
     librainanNPC.draw()
     OfficeGuyNPC.drawAI()
@@ -279,8 +290,37 @@ function animateLibrary(){
     player5.animate = false
     librainanNPC.animate = true
     // office guy npc moving
-    
+    if(keys.w.pressed == false && keys.a.pressed == false &&
+        keys.s.pressed == false && keys.d.pressed == false
+        )
+    {
+            if(player5.image ==  player5.sprites.down && enemyIsAttacking == false){
+                player5.image = player5.sprites.idleDown
+            }else if(player5.image ==  player5.sprites.up){
+                player5.image = player5.sprites.idleUp
+            }else if(player5.image ==  player5.sprites.right){
+                player5.image = player5.sprites.idleRight
+            }else if(player5.image ==  player5.sprites.left){
+                player5.image = player5.sprites.idleLeft
+            }
+            player5.animate = true
+            player5.draw()
+    }else{
+        player5.animate = true
+        player5.draw()
+    }
 
+    openMenu()
+    
+    // makes sure that the player doesnt attack when player leave the coffee house
+    if(keys.space.pressed){
+        keys.space.pressed = false
+    }
+
+    // makes sure that the player doesn't throw a fireball
+    if(keys.f.pressed){
+        keys.f.pressed = false
+    }
     movable_officeGuyNpc.forEach(movable => {
         //player5.position.x + player5.width >= OfficeGuyNPC.position.x
         

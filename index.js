@@ -91,6 +91,8 @@ function animate(){
     document.querySelector('#ComputerInterface').style.display = 'none'
     document.querySelector('#baristaInterface').style.display = 'none'
     document.querySelector('#menuHUB').style.display = 'none'
+    document.querySelector('#pWalletTalkingDiv').style.display = 'none'
+    document.querySelector('#pStatsTalkingDiv').style.display = 'none'
     if(animateown == true){
         window.cancelAnimationFrame(animationId)
         handleStateChange()
