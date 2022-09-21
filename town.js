@@ -580,24 +580,27 @@ function animateTown(){
     boundaries_for_entering_house.forEach((boundary) => {
         boundary.draw()
     })
-   //townEnmeny1.drawAI()
-   // townEnmeny2.drawAI()
-    
+
+    // this is for testing 
+    //note draw the enemies after they player
+    //townEnmeny1.drawAI()
+    // townEnmeny2.drawAI()
     //player.drawAI()
-    
     // AreaBoundary3.draw()
     //  TestBoundary3.draw()
     // StartingPoint3.draw()
-    townEnmeny3.draw()
+    //townEnmeny3.draw()
     //spinMoveSprite.draw()
     // playerSwordU.draw()
     // playerSwordD.draw()
     // AreaBoundary4.draw()
     //  TestBoundary4.draw() 
     // StartingPoint4.draw()
-    townEnmeny4.draw()
+    //townEnmeny4.draw()
+    
+    
     if(isAttacking == false && enemyIsAttacking == false && playerStats.playerHealth > 0){
-        console.log(enemyIsAttacking)
+        //console.log(enemyIsAttacking)
         
         player3.draw()
         
@@ -760,10 +763,10 @@ function animateTown(){
     if(keys.w.pressed == false && keys.a.pressed == false &&
         keys.s.pressed == false && keys.d.pressed == false &&
         isAttacking == false && enemyIsAttacking == false && keys.space.pressed == false && 
-        playerStats.playerHealth > 0 && playerHit.animate == false
+        playerStats.playerHealth > 0 
         )
     {
-            console.log(enemyIsAttacking)
+            
             if(player3.image ==  player3.sprites.down && enemyIsAttacking == false){
                 player3.image = player3.sprites.idleDown
             }else if(player3.image ==  player3.sprites.up){
@@ -798,7 +801,9 @@ function animateTown(){
             playerHit.update()
         }
     }
-
+    //note draw the enemies after they player
+    townEnmeny3.draw()
+    townEnmeny4.draw()
 
     if(keys.w.pressed == true && lastKey == 'w') {
         
