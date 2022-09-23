@@ -5,42 +5,42 @@ const offset8 = {
 
 
 const libraryBackgroundImage = new Image()
-//houseBackgroundImage.src = './res/battleBackground.png'
-libraryBackgroundImage.src = './res/maps/library.png'
+//houseBackgroundImage.src = './static/res/battleBackground.png'
+libraryBackgroundImage.src = './static/res/maps/library.png'
 
 const libaryForeGroundImage = new Image()
-//houseBackgroundImage.src = './res/battleBackground.png'
-libaryForeGroundImage.src = './res/maps/library_foreground.png'
+//houseBackgroundImage.src = './static/res/battleBackground.png'
+libaryForeGroundImage.src = './static/res/maps/library_foreground.png'
 
 const playerDownImage5 = new Image()
-playerDownImage5.src = './res/playerRes/CDown2.png'
+playerDownImage5.src = './static/res/playerRes/CDown2.png'
 const playerUpImage5 = new Image()
-playerUpImage5.src = './res/playerRes/CUp2.png'
+playerUpImage5.src = './static/res/playerRes/CUp2.png'
 const playerRightImage5 = new Image()
-playerRightImage5.src = './res/playerRes/CRight2.png'
+playerRightImage5.src = './static/res/playerRes/CRight2.png'
 const playerLeftImage5 = new Image()
-playerLeftImage5.src = './res/playerRes/CLeft2.png'
+playerLeftImage5.src = './static/res/playerRes/CLeft2.png'
 const playerIdleDownImage5 = new Image()
-playerIdleDownImage5.src = './res/playerRes/CIdle.png'
+playerIdleDownImage5.src = './static/res/playerRes/CIdle.png'
 const playerIdleUpImage5 = new Image()
-playerIdleUpImage5.src = './res/playerRes/CIdleUp.png'
+playerIdleUpImage5.src = './static/res/playerRes/CIdleUp.png'
 const playerIdleLeftImage5 = new Image()
-playerIdleLeftImage5.src = './res/playerRes/playerIdleLeft.png'
+playerIdleLeftImage5.src = './static/res/playerRes/playerIdleLeft.png'
 const playerIdleRightImage5 = new Image()
-playerIdleRightImage5.src = './res/playerRes/playerIdleRight.png'
+playerIdleRightImage5.src = './static/res/playerRes/playerIdleRight.png'
 
 // office npc
 const officeGuyDown = new Image()
-officeGuyDown.src = './res/playerRes/OfficeGuyDown.png'
+officeGuyDown.src = './static/res/playerRes/OfficeGuyDown.png'
 const officeGuyUp = new Image()
-officeGuyUp.src = './res/playerRes/OfficeGuyUp.png'
+officeGuyUp.src = './static/res/playerRes/OfficeGuyUp.png'
 const officeGuyRight = new Image()
-officeGuyRight.src = './res/playerRes/OfficeGuyRight.png'
+officeGuyRight.src = './static/res/playerRes/OfficeGuyRight.png'
 const officeGuyLeft = new Image()
-officeGuyLeft.src = './res/playerRes/OfficeGuyLeft.png'
+officeGuyLeft.src = './static/res/playerRes/OfficeGuyLeft.png'
 
 const librainanDownImage = new Image()
-librainanDownImage.src = './res/playerRes/librarian_down.png'
+librainanDownImage.src = './static/res/playerRes/librarian_down.png'
 
 
 

@@ -1,10 +1,10 @@
 // creating emby for our battle animate loop 
 const embyImage = new Image()
-embyImage.src = './res/embySprite.png'
+embyImage.src = './static/res/embySprite.png'
 
 // this create draggle in our battle animate loop 
 const draggleImage = new Image()
-draggleImage.src = './res/draggleSprite.png'
+draggleImage.src = './static/res/draggleSprite.png'
 
 
 const monsters = {
@@ -14,7 +14,7 @@ const monsters = {
             y: 320
         },
         image: {
-            src: './res/embySprite.png'
+            src: './static/res/embySprite.png'
         },
         frames: {
             max: 4,
@@ -31,7 +31,7 @@ const monsters = {
             y: 100
         },
         image: {
-            src: './res/draggleSprite.png'
+            src: './static/res/draggleSprite.png'
         },
         frames: {
             max: 4,

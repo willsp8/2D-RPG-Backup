@@ -36,40 +36,40 @@ collisionsMapHouse.forEach((row, i) => {
 })
 
 const houseBackgroundImage = new Image()
-//houseBackgroundImage.src = './res/battleBackground.png'
-houseBackgroundImage.src = './res/maps/players_room.png'
+//houseBackgroundImage.src = './static/res/battleBackground.png'
+houseBackgroundImage.src = './static/res/maps/players_room.png'
 const playerDownImage2 = new Image()
 // seting the image src to the image i want to use for the player
-//playerDownImage2.src = './res/playerDown.png']
-playerDownImage2.src = './res/playerRes/CDown2.png'
+//playerDownImage2.src = './static/res/playerDown.png']
+playerDownImage2.src = './static/res/playerRes/CDown2.png'
 
 //all the lines of code create images for the player which are left right down and up. 
 const playerUpImage2 = new Image()
-playerUpImage2.src = './res/playerRes/CUp2.png'
+playerUpImage2.src = './static/res/playerRes/CUp2.png'
 const playerRightImage2 = new Image()
-playerRightImage2.src = './res/playerRes/CRight2.png'
+playerRightImage2.src = './static/res/playerRes/CRight2.png'
 const playerLeftImage2 = new Image()
-playerLeftImage2.src = './res/playerRes/CLeft2.png'
+playerLeftImage2.src = './static/res/playerRes/CLeft2.png'
 const playerIdleDownImage2 = new Image()
-playerIdleDownImage2.src = './res/playerRes/CIdle.png'
+playerIdleDownImage2.src = './static/res/playerRes/CIdle.png'
 const playerIdleUpImage2 = new Image()
-playerIdleUpImage2.src = './res/playerRes/CIdleUp.png'
+playerIdleUpImage2.src = './static/res/playerRes/CIdleUp.png'
 const playerIdleLeftImage2 = new Image()
-playerIdleLeftImage2.src = './res/playerRes/playerIdleLeft.png'
+playerIdleLeftImage2.src = './static/res/playerRes/playerIdleLeft.png'
 const playerIdleRightImage2 = new Image()
-playerIdleRightImage2.src = './res/playerRes/playerIdleRight.png'
+playerIdleRightImage2.src = './static/res/playerRes/playerIdleRight.png'
 
 // cat 
 const catUpImage = new Image()
-catUpImage.src = './res/animals/catWalkUp.png'
+catUpImage.src = './static/res/animals/catWalkUp.png'
 const catDownImage = new Image()
-catDownImage.src = './res/animals/catWalkDown.png'
+catDownImage.src = './static/res/animals/catWalkDown.png'
 const catRightImage = new Image()
-catRightImage.src = './res/animals/catWalkRight.png'
+catRightImage.src = './static/res/animals/catWalkRight.png'
 const catLeftImage = new Image()
-catLeftImage.src = './res/animals/catWalkLeft.png'
+catLeftImage.src = './static/res/animals/catWalkLeft.png'
 const catIdleImage = new Image()
-catIdleImage.src = './res/animals/catIdle.png'
+catIdleImage.src = './static/res/animals/catIdle.png'
 
 let houseAnimateId 
 

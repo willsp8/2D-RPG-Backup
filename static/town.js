@@ -21,36 +21,36 @@ function changeOffSet(x1, y1){
 
 console.log(townEnmeny3)
 const townBackgroundImage = new Image()
-//houseBackgroundImage.src = './res/battleBackground.png'
-townBackgroundImage.src = './res/maps/ice_town_map_final.png'
+//houseBackgroundImage.src = './static/res/battleBackground.png'
+townBackgroundImage.src = './static/res/maps/ice_town_map_final.png'
 // player
 const playerDownImage3 = new Image()
-playerDownImage3.src = './res/playerRes/CDown2.png'
+playerDownImage3.src = './static/res/playerRes/CDown2.png'
 const playerUpImage3 = new Image()
-playerUpImage3.src = './res/playerRes/CUp2.png'
+playerUpImage3.src = './static/res/playerRes/CUp2.png'
 const playerRightImage3 = new Image()
-playerRightImage3.src = './res/playerRes/CRight2.png'
+playerRightImage3.src = './static/res/playerRes/CRight2.png'
 const playerLeftImage3 = new Image()
-playerLeftImage3.src = './res/playerRes/CLeft2.png'
+playerLeftImage3.src = './static/res/playerRes/CLeft2.png'
 const playerIdleDownImage3 = new Image()
-playerIdleDownImage3.src = './res/playerRes/CIdle.png'
+playerIdleDownImage3.src = './static/res/playerRes/CIdle.png'
 const playerIdleUpImage3= new Image()
-playerIdleUpImage3.src = './res/playerRes/CIdleUp.png'
+playerIdleUpImage3.src = './static/res/playerRes/CIdleUp.png'
 const playerIdleLeftImage3= new Image()
-playerIdleLeftImage3.src = './res/playerRes/playerIdleLeft.png'
+playerIdleLeftImage3.src = './static/res/playerRes/playerIdleLeft.png'
 const playerIdleRightImage3= new Image()
-playerIdleRightImage3.src = './res/playerRes/playerIdleRight.png'
+playerIdleRightImage3.src = './static/res/playerRes/playerIdleRight.png'
 //enemy
 const enemyDownImage1 = new Image()
 // seting the image src to the image i want to use for the player
-//playerDownImage2.src = './res/playerDown.png']
-enemyDownImage1.src = './res/playerRes/EmDown.png'
+//playerDownImage2.src = './static/res/playerDown.png']
+enemyDownImage1.src = './static/res/playerRes/EmDown.png'
 const enemyUpImage1 = new Image()
-enemyUpImage1.src = './res/playerRes/EmDown.png'
+enemyUpImage1.src = './static/res/playerRes/EmDown.png'
 const enemyRightImage1 = new Image()
-enemyRightImage1.src = './res/playerRes/EmDown.png'
+enemyRightImage1.src = './static/res/playerRes/EmDown.png'
 const enemyLeftImage1 = new Image()
-enemyLeftImage1.src = './res/playerRes/EmDown.png'
+enemyLeftImage1.src = './static/res/playerRes/EmDown.png'
 
 const townBattleZoneMap = []
 for (let i = 0; i < townBattleZone.length; i+= 120){ 
@@ -255,7 +255,7 @@ const player3 = new Sprite({
 })
 
 const PlayerDyingImage = new Image()
-PlayerDyingImage.src = './res/playerRes/playerDying.png'
+PlayerDyingImage.src = './static/res/playerRes/playerDying.png'
 const player3Dying = new Sprite({
     position: {
         x: (canvas.width / 2 - 192 / 4 / 2), 
@@ -277,7 +277,7 @@ const player3Dying = new Sprite({
 
 
 const vertexFireBallImage = new Image()
-vertexFireBallImage.src = './res/playerRes/vertexMagic.png'
+vertexFireBallImage.src = './static/res/playerRes/vertexMagic.png'
 const vertexFireBall = new Sprite2({
     position: {
         x: (canvas.width / 2 - 192 / 4 / 2), 
@@ -294,13 +294,13 @@ const vertexFireBall = new Sprite2({
 })
 
 const playerhitImage = new Image()
-playerhitImage.src = './res/playerRes/hitdown.png'
+playerhitImage.src = './static/res/playerRes/hitdown.png'
 const playerhitUpImage = new Image()
-playerhitUpImage.src = './res/playerRes/hitUp.png'
+playerhitUpImage.src = './static/res/playerRes/hitUp.png'
 const playerhitLeftImage = new Image()
-playerhitLeftImage.src = './res/playerRes/hitLeft.png'
+playerhitLeftImage.src = './static/res/playerRes/hitLeft.png'
 const playerhitRightImage = new Image()
-playerhitRightImage.src = './res/playerRes/hitRight.png'
+playerhitRightImage.src = './static/res/playerRes/hitRight.png'
 const playerHit = new Sprite({
     position: {
         x: (canvas.width / 2 - 192 / 4 / 2), 
@@ -320,12 +320,12 @@ const playerHit = new Sprite({
     }
 })
 const spinMoveImage = new Image()
-spinMoveImage.src = './res/playerRes/spinMove.png'
+spinMoveImage.src = './static/res/playerRes/spinMove.png'
 
 const spinMoveSprite = new Sprite2({
     position: {
         x: (canvas.width / 2 - 192 / 4 / 2) - 125, 
-        y: (canvas.height / 2 - 68 / 2) - 125
+        y: (canvas.height / 2 - 68 / 2) - 135
     },
     image: spinMoveImage, 
     frames: {
@@ -338,13 +338,13 @@ const spinMoveSprite = new Sprite2({
 })
 
 const playerARImage3 = new Image()
-playerARImage3.src = './res/playerRes/playerAttackingRight.png'
+playerARImage3.src = './static/res/playerRes/playerAttackingRight.png'
 const playerALImage3 = new Image()
-playerALImage3.src = './res/playerRes/playerAttackingLeft.png'
+playerALImage3.src = './static/res/playerRes/playerAttackingLeft.png'
 const playerAUpImage3 = new Image()
-playerAUpImage3.src = './res/playerRes/playerAttackingUp.png'
+playerAUpImage3.src = './static/res/playerRes/playerAttackingUp.png'
 const playerADownImage3 = new Image()
-playerADownImage3.src = './res/playerRes/playerAttackingDown.png'
+playerADownImage3.src = './static/res/playerRes/playerAttackingDown.png'
 const playerSwordRsprite = new Sprite2({
     position: {
         x: (canvas.width / 2 - 192 / 4 / 2), 
@@ -561,25 +561,25 @@ function animateTown(){
    
     
     townBackground.draw()
-    townBattleZones.forEach((boundary) => {
-        boundary.draw()
-    })
+    // townBattleZones.forEach((boundary) => {
+    //     boundary.draw()
+    // })
 
-    boundaries_for_town.forEach((boundary) => {
-        boundary.draw()
-    })
+    // boundaries_for_town.forEach((boundary) => {
+    //     boundary.draw()
+    // })
     
-    boundaries_for_entering_library.forEach((boundary) => {
-        boundary.draw()
-    })
+    // boundaries_for_entering_library.forEach((boundary) => {
+    //     boundary.draw()
+    // })
 
-    boundaries_for_entering_cafe.forEach((boundary) => {
-        boundary.draw()
-    })
+    // boundaries_for_entering_cafe.forEach((boundary) => {
+    //     boundary.draw()
+    // })
 
-    boundaries_for_entering_house.forEach((boundary) => {
-        boundary.draw()
-    })
+    // boundaries_for_entering_house.forEach((boundary) => {
+    //     boundary.draw()
+    // })
 
     // this is for testing 
     //note draw the enemies after they player
@@ -1618,7 +1618,7 @@ function playerFireBallAttack(player, playerFireBall, enemy,
             }   
             
             if(firemoving == true){
-                playerFireBall.draw()
+                // playerFireBall.draw()
                 fireball.image = fireball.sprites.fireball
                 fireball.animate = true
                 fireball.update()
@@ -1639,7 +1639,7 @@ function playerFireBallAttack(player, playerFireBall, enemy,
             })
                 
              ){
-                playerFireBall.draw()
+                // playerFireBall.draw()
                 playerFireBall.position.y = enemy.position.y
                 playerFireBall.position.x = enemy.position.x
                 fireball.position.x = enemy.position.x - 25
@@ -1672,7 +1672,7 @@ function playerFireBallAttack(player, playerFireBall, enemy,
             }
 
             if(firemoving == true){
-                playerFireBall.draw()
+                // playerFireBall.draw()
                 fireball.image = fireball.sprites.fireball
                 fireball.animate = true
                 fireball.update()
@@ -1692,7 +1692,7 @@ function playerFireBallAttack(player, playerFireBall, enemy,
             })
                 
             ){
-                playerFireBall.draw()
+                // playerFireBall.draw()
                 playerFireBall.position.y = enemy.position.y
                 playerFireBall.position.x = enemy.position.x
                 fireball.position.x = enemy.position.x -25
@@ -1723,7 +1723,7 @@ function playerFireBallAttack(player, playerFireBall, enemy,
             }
 
             if(firemoving == true){
-                playerFireBall.draw()
+                // playerFireBall.draw()
                 fireball.image = fireball.sprites.fireball
                 fireball.animate = true
                 fireball.update()
@@ -1745,7 +1745,7 @@ function playerFireBallAttack(player, playerFireBall, enemy,
             })
                 
              ){
-                playerFireBall.draw()
+                // playerFireBall.draw()
                 playerFireBall.position.y = enemy.position.y
                 playerFireBall.position.x = enemy.position.x
                 fireball.position.x = enemy.position.x - 25
@@ -1777,7 +1777,7 @@ function playerFireBallAttack(player, playerFireBall, enemy,
             }
 
             if(firemoving == true){
-                playerFireBall.draw()
+                // playerFireBall.draw()
                 fireball.image = fireball.sprites.fireball
                 fireball.animate = true
                 fireball.update()

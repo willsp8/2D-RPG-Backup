@@ -4,25 +4,25 @@ const offset7 = {
 }
 
 const coffeeShopBackgroundImage = new Image()
-//houseBackgroundImage.src = './res/battleBackground.png'
-coffeeShopBackgroundImage.src = './res/maps/coffee_shop_map.png'
+//houseBackgroundImage.src = './static/res/battleBackground.png'
+coffeeShopBackgroundImage.src = './static/res/maps/coffee_shop_map.png'
 
 const playerDownImage4 = new Image()
-playerDownImage4.src = './res/playerRes/CDown2.png'
+playerDownImage4.src = './static/res/playerRes/CDown2.png'
 const playerUpImage4 = new Image()
-playerUpImage4.src = './res/playerRes/CUp2.png'
+playerUpImage4.src = './static/res/playerRes/CUp2.png'
 const playerRightImage4 = new Image()
-playerRightImage4.src = './res/playerRes/CRight2.png'
+playerRightImage4.src = './static/res/playerRes/CRight2.png'
 const playerLeftImage4 = new Image()
-playerLeftImage4.src = './res/playerRes/CLeft2.png'
+playerLeftImage4.src = './static/res/playerRes/CLeft2.png'
 const playerIdleDownImage4 = new Image()
-playerIdleDownImage4.src = './res/playerRes/CIdle.png'
+playerIdleDownImage4.src = './static/res/playerRes/CIdle.png'
 const playerIdleUpImage4 = new Image()
-playerIdleUpImage4.src = './res/playerRes/CIdleUp.png'
+playerIdleUpImage4.src = './static/res/playerRes/CIdleUp.png'
 const playerIdleLeftImage4= new Image()
-playerIdleLeftImage4.src = './res/playerRes/playerIdleLeft.png'
+playerIdleLeftImage4.src = './static/res/playerRes/playerIdleLeft.png'
 const playerIdleRightImage4 = new Image()
-playerIdleRightImage4.src = './res/playerRes/playerIdleRight.png'
+playerIdleRightImage4.src = './static/res/playerRes/playerIdleRight.png'
 
 const collisionMapCoffeeShop = [] 
 for (let i = 0; i < collision_for_coffee_shop.length; i+= 90){ 
@@ -102,7 +102,7 @@ const player4 = new Sprite({
 })
 
 const baristaDownImage = new Image()
-baristaDownImage.src = "./res/playerRes/baristaDown.png"
+baristaDownImage.src = "./static/res/playerRes/baristaDown.png"
 
 
 const barista = new Sprite({

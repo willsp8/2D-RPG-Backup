@@ -14,22 +14,22 @@ let playerStats = {
 
 const enemyDownImage2 = new Image()
 // seting the image src to the image i want to use for the player
-//playerDownImage2.src = './res/playerDown.png']
-enemyDownImage2.src = './res/playerRes/EmDown.png'
+//playerDownImage2.src = './static/res/playerDown.png']
+enemyDownImage2.src = './static/res/playerRes/EmDown.png'
 const enemyUpImage2 = new Image()
-enemyUpImage2.src = './res/playerRes/EmUp.png'
+enemyUpImage2.src = './static/res/playerRes/EmUp.png'
 const enemyRightImage2 = new Image()
-enemyRightImage2.src = './res/playerRes/enemyRight.png'
+enemyRightImage2.src = './static/res/playerRes/enemyRight.png'
 const enemyLeftImage2 = new Image()
-enemyLeftImage2.src = './res/playerRes/enemyLeft.png'
+enemyLeftImage2.src = './static/res/playerRes/enemyLeft.png'
 const enemyHitLeftImage2 = new Image()
-enemyHitLeftImage2.src = './res/playerRes/enemyHitLeft.png'
+enemyHitLeftImage2.src = './static/res/playerRes/enemyHitLeft.png'
 const enemyHitRightImage2 = new Image()
-enemyHitRightImage2.src = './res/playerRes/enemyHitRight.png'
+enemyHitRightImage2.src = './static/res/playerRes/enemyHitRight.png'
 const enemyDyingLeftImage2 = new Image()
-enemyDyingLeftImage2.src = './res/playerRes/enemyDyingLeft.png'
+enemyDyingLeftImage2.src = './static/res/playerRes/enemyDyingLeft.png'
 const enemyDyingRightImage2 = new Image()
-enemyDyingRightImage2.src = './res/playerRes/enemyDyingRight.png'
+enemyDyingRightImage2.src = './static/res/playerRes/enemyDyingRight.png'
 const townEnmeny3 = new Sprite({
     position: {
         x: (canvas.width / 2 - 192 / 4 / 2) - 500, 
